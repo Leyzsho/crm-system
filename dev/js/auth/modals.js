@@ -15,15 +15,17 @@ export function openResetPasswordModal() {
   const confirmBtn = document.createElement('button');
   const message = document.createElement('p');
 
+  let sendAgain = null;
+
   closeBtn.classList.add('close-modal-btn');
   darkBackground.classList.add('dark-background');
-  modal.classList.add('auth__modal');
-  title.classList.add('auth__title');
-  label.classList.add('auth__label');
-  emailInput.classList.add('auth__input');
-  emailError.classList.add('descr-error');
-  confirmBtn.classList.add('auth__btn');
-  message.classList.add('descr-error');
+  modal.classList.add('account-modal');
+  title.classList.add('account-modal__title');
+  label.classList.add('account-modal__label');
+  emailInput.classList.add('account-modal__input');
+  emailError.classList.add('error');
+  confirmBtn.classList.add('account-modal__btn');
+  message.classList.add('message');
 
   title.textContent = 'Сброс пароля';
   confirmBtn.textContent = 'Отправить письмо';
@@ -64,6 +66,8 @@ export function openResetPasswordModal() {
       return;
     }
 
+    clearInterval(sendAgain);
+
     try {
       confirmBtn.append(loaderBtn);
       confirmBtn.disabled = true;
@@ -74,10 +78,71 @@ export function openResetPasswordModal() {
       message.textContent = 'На вашу электронную почту отправлено письмо со сбросом пароля.';
       confirmBtn.after(message);
 
-      
+      sendAgain = setInterval(() => {
+        confirmBtn.disabled = false;
+        message.textContent = '';
+      }, 5000);
+
+
     } catch (error) {
       message.textContent = 'Что-то пошло не так...';
     }
+  });
+}
+
+export function openDeleteAccountModal() {
+  const darkBackground = document.createElement('div');
+  const modal = document.createElement('div');
+  const passwordInput = document.createElement('input');
+  const label = document.createElement('label');
+  const title = document.createElement('h2');
+  const closeBtn = document.createElement('button');
+  const confirmBtn = document.createElement('button');
+  const message = document.createElement('p');
+  const showHidePasswordBtn = document.createElement('svg');
+  const use = document.createElement('use');
+
+  darkBackground.classList.add('dark-background');
+  modal.classList.add('account-modal');
+  passwordInput.classList.add('account-modal__input');
+  title.classList.add('account-modal__title');
+  closeBtn.classList.add('close-modal-btn');
+  label.classList.add('account-modal__label');
+  confirmBtn.classList.add('account-modal__btn', 'account-modal__btn--red');
+  message.classList.add('error');
+  showHidePasswordBtn.classList.add('show-hide-password-btn');
+
+  use.setAttribute('xlink:href', '#show-password');
+  passwordInput.type = 'password';
+  passwordInput.placeholder = 'Введите ваш пароль';
+  title.textContent = 'Удаление аккаунта';
+  confirmBtn.textContent = 'Удалить аккаунт';
+
+  label.append(passwordInput);
+  label.append(showHidePasswordBtn);
+  showHidePasswordBtn.append(use);
+  modal.append(closeBtn);
+  modal.append(title);
+  modal.append(label);
+  modal.append(confirmBtn);
+  modal.append(message);
+  document.body.append(darkBackground);
+  document.body.append(modal);
+
+  confirmBtn.addEventListener('click', async event => {
+    try {
+      const credential = EmailAuthProvider.credential(currentEmail, passwordInput.value.trim());
+      await reauthenticateWithCredential(user, credential);
+      await deleteUser(user);
+    } catch (error) {
+      message.textContent = 'Введён некорректный пароль.';
+    }
+  });
+
+
+  closeBtn.addEventListener('click', event => {
+    modal.remove();
+    darkBackground.remove();
   });
 }
 

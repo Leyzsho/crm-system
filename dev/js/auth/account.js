@@ -1,5 +1,6 @@
 import app from '../firebase.js';
 import { getAuth, onAuthStateChanged, reauthenticateWithCredential, updateEmail, sendEmailVerification, deleteUser, EmailAuthProvider } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js';
+import { openDeleteAccountModal } from './modals.js';
 const auth = getAuth(app);
 
 onAuthStateChanged(auth, async (user) => {
@@ -74,35 +75,7 @@ onAuthStateChanged(auth, async (user) => {
     });
 
     deleteUserBtn.addEventListener('click', async event => {
-      const darkBackground = document.createElement('div');
-      const modal = document.createElement('div');
-      const currentPasswordInput = document.createElement('input');
-      const title = document.createElement('h2');
-      const confirmBtn = document.createElement('button');
-
-      darkBackground.classList.add('dark-background');
-      modal.classList.add('account__delete-modal');
-      currentPasswordInput.classList.add('account__input');
-      title.classList.add('account__title');
-      confirmBtn.classList.add('account__btn', 'account__btn--red');
-
-      currentPasswordInput.type = 'password';
-      currentPasswordInput.placeholder = 'Введите ваш пароль';
-      currentPasswordInput.required = true;
-      title.textContent = 'Удаление аккаунта';
-      confirmBtn.textContent = 'Удалить аккаунт';
-
-      modal.append(title);
-      modal.append(currentPasswordInput);
-      modal.append(confirmBtn);
-      document.body.append(darkBackground);
-      document.body.append(modal);
-
-      confirmBtn.addEventListener('click', async event => {
-        const credential = EmailAuthProvider.credential(currentEmail, currentPasswordInput.value.trim());
-        await reauthenticateWithCredential(user, credential);
-        await deleteUser(user);
-      });
+      openDeleteAccountModal();
     });
   } else {
     window.location.href = './register.html';
