@@ -1,0 +1,71 @@
+@import '../00_sass-components/mixin.scss';
+@import '../00_sass-components/variables.scss';
+
+.account {
+  &--hidden {
+    display: none;
+  }
+
+  &-modal {
+    @include defaultModal;
+    min-height: 200px;
+    max-width: 400px;
+    width: 100%;
+
+    &__title {
+      @include defaultH2Title;
+    }
+
+    &__btn {
+      @include defaultBtn;
+    }
+
+    &__label {
+      width: 200px;
+      position: relative;
+    }
+
+    &__input {
+      @include defaultInput;
+      width: 100%;
+      text-align: center;
+
+      &::placeholder {
+        text-align: center;
+      }
+    }
+
+    &__btn-container {
+      display: flex;
+      gap: $padding;
+      align-items: center;
+    }
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: $padding;
+  }
+
+  &__title {
+    @include defaultH2Title;
+  }
+
+  &__input {
+    @include defaultInput;
+  }
+
+  &__danger-zone {
+    display: flex;
+    gap: $padding;
+    padding-top: $padding;
+    border-top: 1px solid $color6;
+  }
+
+  &__btn {
+    @include defaultBtn;
+    width: max-content;
+    margin: 0;
+  }
+}

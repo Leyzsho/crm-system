@@ -1,0 +1,170 @@
+@keyframes loader-move {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.account--hidden {
+  display: none;
+}
+.account-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 38px 50px;
+  background-color: #ffffff;
+  transform: translate(-50%, -50%);
+  min-height: 200px;
+  max-width: 400px;
+  width: 100%;
+}
+.account-modal__title {
+  font-size: 18px;
+  color: #333333;
+}
+.account-modal__btn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 auto;
+  padding: 14px 26px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #9873FF;
+  border: 1px solid #9873FF;
+  transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  outline: none;
+}
+.account-modal__btn:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+.account-modal__btn:focus-visible:not(:disabled) {
+  background-color: #9873FF;
+  color: #ffffff;
+}
+.account-modal__btn:hover:not(:disabled) {
+  background-color: #9873FF;
+  color: #ffffff;
+}
+.account-modal__btn--red {
+  border-color: #F06A4D;
+  color: #F06A4D;
+}
+.account-modal__btn--red:focus-visible:not(:disabled) {
+  background-color: #F06A4D;
+}
+.account-modal__btn--red:hover:not(:disabled) {
+  background-color: #F06A4D;
+}
+.account-modal__btn span {
+  width: 15px;
+  height: 15px;
+  border: 3px solid #C8C5D1;
+  border-left-color: #9873FF;
+  border-radius: 50%;
+  animation: loader-move 1.5s linear infinite;
+}
+.account-modal__label {
+  width: 200px;
+  position: relative;
+}
+.account-modal__input {
+  padding: 4px 14px;
+  height: 40px;
+  font-size: 14px;
+  outline-color: #9873FF;
+  border: 1px solid #B0B0B0;
+  width: 100%;
+  text-align: center;
+}
+.account-modal__input::placeholder {
+  font-size: inherit;
+  color: #B0B0B0;
+}
+.account-modal__input::placeholder {
+  text-align: center;
+}
+.account-modal__btn-container {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.account__container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.account__title {
+  font-size: 18px;
+  color: #333333;
+}
+.account__input {
+  padding: 4px 14px;
+  height: 40px;
+  font-size: 14px;
+  outline-color: #9873FF;
+  border: 1px solid #B0B0B0;
+}
+.account__input::placeholder {
+  font-size: inherit;
+  color: #B0B0B0;
+}
+.account__danger-zone {
+  display: flex;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #F06A4D;
+}
+.account__btn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 auto;
+  padding: 14px 26px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #9873FF;
+  border: 1px solid #9873FF;
+  transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  outline: none;
+  width: max-content;
+  margin: 0;
+}
+.account__btn:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+.account__btn:focus-visible:not(:disabled) {
+  background-color: #9873FF;
+  color: #ffffff;
+}
+.account__btn:hover:not(:disabled) {
+  background-color: #9873FF;
+  color: #ffffff;
+}
+.account__btn--red {
+  border-color: #F06A4D;
+  color: #F06A4D;
+}
+.account__btn--red:focus-visible:not(:disabled) {
+  background-color: #F06A4D;
+}
+.account__btn--red:hover:not(:disabled) {
+  background-color: #F06A4D;
+}
+.account__btn span {
+  width: 15px;
+  height: 15px;
+  border: 3px solid #C8C5D1;
+  border-left-color: #9873FF;
+  border-radius: 50%;
+  animation: loader-move 1.5s linear infinite;
+}

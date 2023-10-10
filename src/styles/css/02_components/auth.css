@@ -1,0 +1,108 @@
+@keyframes loader-move {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.auth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.auth__title {
+  font-size: 18px;
+  color: #333333;
+}
+.auth__descr-btn {
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 16px;
+  color: #9873FF;
+  outline: none;
+  transition: color 0.3s ease-in-out;
+}
+.auth__descr-btn:focus-visible {
+  color: #F06A4D;
+}
+.auth__descr-btn:hover {
+  text-decoration: none;
+}
+.auth__label {
+  width: 300px;
+  position: relative;
+}
+.auth__input {
+  width: 100%;
+  text-align: center;
+  padding: 4px 14px;
+  height: 40px;
+  font-size: 14px;
+  outline-color: #9873FF;
+  border: 1px solid #B0B0B0;
+}
+.auth__input::placeholder {
+  font-size: inherit;
+  color: #B0B0B0;
+}
+.auth__input::placeholder {
+  text-align: center;
+}
+.auth__btn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 auto;
+  padding: 14px 26px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #9873FF;
+  border: 1px solid #9873FF;
+  transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  outline: none;
+}
+.auth__btn:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+.auth__btn:focus-visible:not(:disabled) {
+  background-color: #9873FF;
+  color: #ffffff;
+}
+.auth__btn:hover:not(:disabled) {
+  background-color: #9873FF;
+  color: #ffffff;
+}
+.auth__btn--red {
+  border-color: #F06A4D;
+  color: #F06A4D;
+}
+.auth__btn--red:focus-visible:not(:disabled) {
+  background-color: #F06A4D;
+}
+.auth__btn--red:hover:not(:disabled) {
+  background-color: #F06A4D;
+}
+.auth__btn span {
+  width: 15px;
+  height: 15px;
+  border: 3px solid #C8C5D1;
+  border-left-color: #9873FF;
+  border-radius: 50%;
+  animation: loader-move 1.5s linear infinite;
+}
+.auth__change-way {
+  font-size: 16px;
+}
+.auth__change-way-link {
+  color: #9873FF;
+  text-decoration: underline;
+  outline: none;
+  transition: color 0.3s ease-in-out;
+}
+.auth__change-way-link:focus-visible {
+  color: #F06A4D;
+}
+.auth__change-way-link:hover {
+  text-decoration: none;
+}

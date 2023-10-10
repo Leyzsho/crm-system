@@ -1,0 +1,204 @@
+@keyframes loader-move {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@font-face {
+  font-family: "OpenSans";
+  src: local("OpenSans-Regular"), url("../OpenSans-Regular.woff2") format(woff2);
+  font-display: fallback;
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "OpenSans";
+  src: local("OpenSans-SemiBold"), url("../OpenSans-SemiBold.woff2") format(woff2);
+  font-display: fallback;
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "OpenSans";
+  src: local("OpenSans-Bold"), url("../OpenSans-Bold.woff2") format(woff2);
+  font-display: fallback;
+  font-weight: 700;
+  font-style: normal;
+}
+html {
+  box-sizing: border-box;
+}
+
+*,
+::after,
+::before {
+  box-sizing: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  width: 100%;
+}
+
+button {
+  background-color: initial;
+  border: none;
+  padding: 0;
+}
+
+h1, h2, p {
+  margin: 0;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+body {
+  min-width: 320px;
+  font-family: "OpenSans", sans-serif;
+  background-color: #F5F5F5;
+}
+
+.main {
+  position: relative;
+  padding-top: 40px;
+}
+.main__lds-ring {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+.main__title {
+  margin-bottom: 10px;
+}
+.main__client-list {
+  margin-bottom: 40px;
+}
+
+.container {
+  max-width: 1024px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.header {
+  width: 100%;
+  padding: 20px 0;
+  background-color: #ffffff;
+  box-shadow: 0px 3.38629px 5.64383px 0px rgba(176, 190, 197, 0.32), 0px 9.03012px 27.09036px 0px rgba(176, 190, 197, 0.32);
+}
+.header__container {
+  display: flex;
+  align-items: center;
+  gap: 52px;
+}
+.header__title {
+  text-align: center;
+}
+.header__account-link {
+  margin-left: auto;
+  outline: none;
+  transition: color 0.3s ease-in-out;
+}
+.header__account-link:focus-visible {
+  color: #9873FF;
+}
+.header__account-link:hover {
+  color: #9873FF;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  outline-color: #9873FF;
+  user-select: none;
+}
+
+.title {
+  color: #333333;
+  font-size: 24px;
+}
+.title--center {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.dark-background {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.error {
+  text-align: center;
+  font-size: 14px;
+  color: #F06A4D;
+}
+
+.message {
+  text-align: center;
+  font-size: 14px;
+  color: #00FF00;
+}
+
+.close-modal-btn {
+  cursor: pointer;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  width: 30px;
+  height: 30px;
+  outline: none;
+}
+.close-modal-btn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 2px;
+  background-color: #B0B0B0;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  transition: background-color 0.3s ease-in-out;
+}
+.close-modal-btn::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 2px;
+  background-color: #B0B0B0;
+  transform: translate(-50%, -50%) rotate(45deg);
+  transition: background-color 0.3s ease-in-out;
+}
+.close-modal-btn:focus-visible::before {
+  background-color: #9873FF;
+}
+.close-modal-btn:focus-visible::after {
+  background-color: #9873FF;
+}
+.close-modal-btn:hover::before {
+  background-color: #9873FF;
+}
+.close-modal-btn:hover::after {
+  background-color: #9873FF;
+}
+
+.show-hide-password-btn {
+  cursor: pointer;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 88%;
+  top: 50%;
+  transform: translateY(-50%);
+}
