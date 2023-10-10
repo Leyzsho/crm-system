@@ -72,7 +72,7 @@
   animation: loader-move 1.5s linear infinite;
 }
 .account-modal__label {
-  width: 200px;
+  width: 100%;
   position: relative;
 }
 .account-modal__input {
@@ -90,6 +90,20 @@
 }
 .account-modal__input::placeholder {
   text-align: center;
+}
+.account-modal__descr-btn {
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 16px;
+  color: #9873FF;
+  outline: none;
+  transition: color 0.3s ease-in-out;
+}
+.account-modal__descr-btn:focus-visible {
+  color: #F06A4D;
+}
+.account-modal__descr-btn:hover {
+  text-decoration: none;
 }
 .account-modal__btn-container {
   display: flex;

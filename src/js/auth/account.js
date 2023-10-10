@@ -1,6 +1,6 @@
 import app from '../firebase.js';
-import { getAuth, onAuthStateChanged, reauthenticateWithCredential, updateEmail, sendEmailVerification, EmailAuthProvider } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js';
-import { openChangePasswordModal, openDeleteAccountModal, openSignOutModal } from './modals.js';
+import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js';
+import { openChangeEmailModal, openChangePasswordModal, openDeleteAccountModal, openSignOutModal } from './modals.js';
 const auth = getAuth(app);
 
 onAuthStateChanged(auth, async (user) => {
@@ -21,58 +21,7 @@ onAuthStateChanged(auth, async (user) => {
 
 
     changeEmailBtn.addEventListener('click', event => {
-      changeEmailBtn.disabled = true;
-      const container = document.createElement('div');
-      const newEmailInput = document.createElement('input');
-      const currentPasswordInput = document.createElement('input');
-      const confirmBtn = document.createElement('button');
-      const cancelBtn = document.createElement('button');
-
-      newEmailInput.type = 'email';
-      newEmailInput.placeholder = 'Введите новый email';
-      currentPasswordInput.type = 'password';
-      currentPasswordInput.placeholder = 'Введите пароль';
-      confirmBtn.textContent = 'Сменить';
-      cancelBtn.textContent = 'Отменить';
-
-      container.classList.add('account__change-data-container');
-      newEmailInput.classList.add('account__input');
-      currentPasswordInput.classList.add('account__input');
-      confirmBtn.classList.add('account__btn', 'account__change-data-confirm-btn');
-      cancelBtn.classList.add('account__btn', 'account__btn--red');
-
-      container.append(newEmailInput);
-      container.append(currentPasswordInput);
-      container.append(confirmBtn);
-      container.append(cancelBtn);
-      changeEmailBtn.after(container);
-
-      cancelBtn.addEventListener('click', event => {
-        container.remove();
-        changeEmailBtn.disabled = false;
-      });
-
-      confirmBtn.addEventListener('click', async event => {
-        const credential = EmailAuthProvider.credential(currentEmail, currentPasswordInput.value.trim());
-
-        try {
-          await reauthenticateWithCredential(user, credential);
-
-          await sendEmailVerification(user);
-
-          if (user.isEmailVerified) {
-            await updateEmail(user, newEmailInput.value.trim());
-
-            accountEmail.textContent = `email: ${newEmailInput.value.trim()}`;
-            changeEmailBtn.disabled = false;
-            container.remove();
-          } else {
-            console.log('не подтверждена')
-          }
-        } catch (error) {
-          console.log(error.message)
-        }
-      });
+      openChangeEmailModal(user);
     });
 
     changePasswordBtn.addEventListener('click', event => {

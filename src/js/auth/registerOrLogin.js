@@ -173,7 +173,7 @@ form.addEventListener('submit', async (event) => {
       await sendEmailVerification(user);
       message.classList.remove('error');
       message.classList.add('message');
-      message.textContent = 'На вашу электронную почту отправлено письмо с подтверждением. Пожалуйста, подтвердите свою почту, прежде чем войти.';
+      message.textContent = 'На вашу электронную почту отправлено письмо с подтверждением.';
       message.after(cancelAuthBtn);
 
       // отменяем регистрацию: удаляем пользователя из базы данных, очищаем input-ы и т.д.

@@ -21,7 +21,7 @@
     }
 
     &__label {
-      width: 200px;
+      width: 100%;
       position: relative;
     }
 
@@ -32,6 +32,23 @@
 
       &::placeholder {
         text-align: center;
+      }
+    }
+
+    &__descr-btn {
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 16px;
+      color: $color5;
+      outline: none;
+      transition: color .3s ease-in-out;
+
+      &:focus-visible {
+        color: $color6;
+      }
+
+      &:hover {
+        text-decoration: none;
       }
     }
 

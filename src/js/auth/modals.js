@@ -1,6 +1,6 @@
 import app from '../firebase.js';
 import { validationEmail, validationPassword } from './validation.js';
-import { getAuth, sendPasswordResetEmail, EmailAuthProvider, reauthenticateWithCredential, deleteUser, signOut, updatePassword } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js';
+import { getAuth, sendPasswordResetEmail, EmailAuthProvider, reauthenticateWithCredential, deleteUser, signOut, updatePassword, verifyBeforeUpdateEmail, sendEmailVerification } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js';
 const auth = getAuth(app);
 
 export function openResetPasswordModal() {
@@ -94,12 +94,14 @@ export function openDeleteAccountModal(user) {
   const title = document.createElement('h2');
   const closeBtn = document.createElement('button');
   const confirmBtn = document.createElement('button');
+  const forgotPasswordBtn = document.createElement('button');
   const message = document.createElement('p');
 
   darkBackground.classList.add('dark-background');
   modal.classList.add('account-modal');
   passwordInput.classList.add('account-modal__input');
   title.classList.add('account-modal__title');
+  forgotPasswordBtn.classList.add('account-modal__descr-btn');
   closeBtn.classList.add('close-modal-btn');
   confirmBtn.classList.add('account-modal__btn', 'account-modal__btn--red');
   message.classList.add('error');
@@ -109,10 +111,12 @@ export function openDeleteAccountModal(user) {
   title.textContent = 'Удаление аккаунта';
   confirmBtn.textContent = 'Удалить аккаунт';
   confirmBtn.disabled = true;
+  forgotPasswordBtn.textContent = 'Я забыл пароль';
 
   modal.append(closeBtn);
   modal.append(title);
   modal.append(passwordInput);
+  modal.append(forgotPasswordBtn);
   modal.append(confirmBtn);
   modal.append(message);
   document.body.append(darkBackground);
@@ -136,6 +140,11 @@ export function openDeleteAccountModal(user) {
     }
   });
 
+  forgotPasswordBtn.addEventListener('click', event => {
+    modal.remove();
+    darkBackground.remove();
+    openResetPasswordModal();
+  });
 
   closeBtn.addEventListener('click', event => {
     modal.remove();
@@ -182,6 +191,7 @@ export function openChangePasswordModal(user) {
   const newPasswordInput = document.createElement('input');
   const confirmBtn = document.createElement('button');
   const closeBtn = document.createElement('button');
+  const forgotPasswordBtn = document.createElement('button');
   const currentPasswordLabel = document.createElement('label');
   const newPasswordLabel = document.createElement('label');
   const newPasswordError = document.createElement('p');
@@ -192,6 +202,7 @@ export function openChangePasswordModal(user) {
   newPasswordInput.type = 'password';
   newPasswordInput.placeholder = 'Введите новый пароль';
   confirmBtn.textContent = 'Сменить';
+  forgotPasswordBtn.textContent = 'Я забыл пароль';
 
   darkBackground.classList.add('dark-background');
   modal.classList.add('account-modal');
@@ -201,6 +212,7 @@ export function openChangePasswordModal(user) {
   newPasswordInput.classList.add('account-modal__input');
   confirmBtn.classList.add('account-modal__btn');
   closeBtn.classList.add('close-modal-btn');
+  forgotPasswordBtn.classList.add('account-modal__descr-btn');
   newPasswordError.classList.add('error');
 
   modal.style.borderBottom = 'none';
@@ -212,6 +224,7 @@ export function openChangePasswordModal(user) {
   modal.append(closeBtn);
   modal.append(currentPasswordLabel);
   modal.append(newPasswordLabel);
+  modal.append(forgotPasswordBtn);
   modal.append(confirmBtn);
   modal.append(message);
   document.body.append(darkBackground);
@@ -239,6 +252,12 @@ export function openChangePasswordModal(user) {
     }
   });
 
+  forgotPasswordBtn.addEventListener('click', event => {
+    modal.remove();
+    darkBackground.remove();
+    openResetPasswordModal();
+  });
+
   confirmBtn.addEventListener('click', async event => {
     try {
       const credential = EmailAuthProvider.credential(user.email, currentPasswordInput.value.trim());
@@ -258,5 +277,102 @@ export function openChangePasswordModal(user) {
   closeBtn.addEventListener('click', event => {
     modal.remove();
     darkBackground.remove();
+  });
+}
+
+export function openChangeEmailModal(user) {
+  const darkBackground = document.createElement('div');
+  const modal = document.createElement('div');
+  const newEmailLabel = document.createElement('label');
+  const newEmailInput = document.createElement('input');
+  const currentPasswordInput = document.createElement('input');
+  const confirmBtn = document.createElement('button');
+  const forgotPasswordBtn = document.createElement('button');
+  const closeBtn = document.createElement('button');
+  const newEmailError = document.createElement('p');
+  const message = document.createElement('p');
+
+  let checkUpdateEmail = null;
+
+  newEmailInput.type = 'text';
+  newEmailInput.placeholder = 'Введите новый email';
+  currentPasswordInput.type = 'password';
+  currentPasswordInput.placeholder = 'Введите пароль';
+  forgotPasswordBtn.textContent = 'Я забыл пароль';
+  confirmBtn.textContent = 'Сменить';
+  confirmBtn.disabled = true;
+
+  darkBackground.classList.add('dark-background');
+  modal.classList.add('account-modal');
+  newEmailLabel.classList.add('account-modal__label');
+  newEmailInput.classList.add('account-modal__input');
+  currentPasswordInput.classList.add('account-modal__input');
+  forgotPasswordBtn.classList.add('account-modal__descr-btn');
+  confirmBtn.classList.add('account-modal__btn');
+  closeBtn.classList.add('close-modal-btn');
+  newEmailError.classList.add('error');
+
+
+  newEmailLabel.append(newEmailInput);
+  newEmailLabel.append(newEmailError);
+  modal.append(newEmailLabel);
+  modal.append(currentPasswordInput);
+  modal.append(forgotPasswordBtn);
+  modal.append(confirmBtn);
+  modal.append(message);
+  modal.append(closeBtn);
+  document.body.append(darkBackground);
+  document.body.append(modal);
+
+  document.addEventListener('input', event => {
+    try {
+      validationEmail(newEmailInput.value.trim());
+      if (currentPasswordInput.value !== '') {
+        confirmBtn.disabled = false;
+      } else {
+        confirmBtn.disabled = true;
+      }
+    } catch (error) {
+      confirmBtn.disabled = true;
+    }
+  });
+
+  forgotPasswordBtn.addEventListener('click', event => {
+    modal.remove();
+    darkBackground.remove();
+    openResetPasswordModal();
+  });
+
+  newEmailInput.addEventListener('input', event => {
+    try {
+      validationEmail(event.currentTarget.value.trim());
+      newEmailError.textContent = '';
+    } catch (error) {
+      newEmailError.textContent = error.message;
+    }
+  });
+
+  closeBtn.addEventListener('click', event => {
+    modal.remove();
+    darkBackground.remove();
+  });
+
+  confirmBtn.addEventListener('click', async event => {
+    clearInterval(checkUpdateEmail);
+    try {
+      const credential = EmailAuthProvider.credential(user.email, currentPasswordInput.value.trim());
+      await reauthenticateWithCredential(user, credential);
+      await verifyBeforeUpdateEmail(user, newEmailInput.value.trim());
+      message.classList.remove('error');
+      message.classList.add('message');
+      message.textContent = 'На вашу электронную почту отправлено письмо с подтверждением.';
+      checkUpdateEmail = setInterval(() => {
+        user.reload();
+      }, 1000);
+    } catch (error) {
+      message.classList.remove('message');
+      message.classList.add('error');
+      message.textContent = 'Введен неверный пароль.';
+    }
   });
 }
