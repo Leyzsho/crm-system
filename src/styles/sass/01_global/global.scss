@@ -144,6 +144,7 @@ body {
 }
 
 .message {
+  text-align: center;
   font-size: 14px;
   color: #00FF00;
 }
@@ -182,19 +183,19 @@ body {
   }
 
   &:focus-visible::before {
-    background-color: $color5;
+    background-color: $color6;
   }
 
   &:focus-visible::after {
-    background-color: $color5;
+    background-color: $color6;
   }
 
   &:hover::before {
-    background-color: $color5;
+    background-color: $color6;
   }
 
   &:hover::after {
-    background-color: $color5;
+    background-color: $color6;
   }
 }
 

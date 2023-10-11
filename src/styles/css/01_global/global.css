@@ -111,7 +111,7 @@ body {
   margin-left: auto;
 }
 .header__link:focus-visible {
-  color: #F06A4D;
+  color: #9873FF;
   text-decoration: none;
 }
 .header__link:hover {
@@ -148,6 +148,7 @@ body {
 }
 
 .message {
+  text-align: center;
   font-size: 14px;
   color: #00FF00;
 }
@@ -184,16 +185,16 @@ body {
   transition: background-color 0.3s ease-in-out;
 }
 .close-modal-btn:focus-visible::before {
-  background-color: #9873FF;
+  background-color: #F06A4D;
 }
 .close-modal-btn:focus-visible::after {
-  background-color: #9873FF;
+  background-color: #F06A4D;
 }
 .close-modal-btn:hover::before {
-  background-color: #9873FF;
+  background-color: #F06A4D;
 }
 .close-modal-btn:hover::after {
-  background-color: #9873FF;
+  background-color: #F06A4D;
 }
 
 .show-hide-password-btn {

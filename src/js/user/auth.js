@@ -52,6 +52,17 @@ showHidePassword(passwordInput);
 
 formBtn.disabled = true;
 
+emailInput.addEventListener('input', event => {
+  try {
+    validationEmail(emailInput.value);
+    emailError.textContent = '';
+    emailInput.classList.remove('auth__input--error');
+  } catch (error) {
+    emailInput.classList.add('auth__input--error');
+    emailError.textContent = error.message;
+  }
+});
+
 if (window.location.pathname.includes('/register.html')) {
   placeholder(repeatPasswordInput, 'Повторите пароль');
   showHidePassword(repeatPasswordInput);
@@ -70,38 +81,34 @@ if (window.location.pathname.includes('/register.html')) {
     }
   });
 
-  emailInput.addEventListener('input', event => {
-    try {
-      validationEmail(emailInput.value);
-      emailError.textContent = '';
-    } catch (error) {
-      emailError.textContent = error.message;
-    }
-  });
-
   passwordInput.addEventListener('input', event => {
     if (repeatPasswordInput.value === passwordInput.value) {
       repeatPasswordError.textContent = '';
+      repeatPasswordInput.classList.remove('auth__input--error');
     } else {
       repeatPasswordError.textContent = 'Пароли не совпадают.';
+      repeatPasswordInput.classList.add('auth__input--error');
     }
     try {
       validationPassword(passwordInput.value);
       passwordError.textContent = '';
+       passwordInput.classList.remove('auth__input--error');
     } catch (error) {
       passwordError.textContent = error.message;
+       passwordInput.classList.add('auth__input--error');
     }
   });
 
   repeatPasswordInput.addEventListener('input', event => {
     if (repeatPasswordInput.value === passwordInput.value) {
       repeatPasswordError.textContent = '';
+      repeatPasswordInput.classList.remove('auth__input--error');
     } else {
-      repeatPasswordError.textContent = 'Пароли не совпадают.';;
+      repeatPasswordError.textContent = 'Пароли не совпадают.';
+      repeatPasswordInput.classList.add('auth__input--error');
     }
   });
 } else if (window.location.pathname.includes('/login.html')) {
-
   const forgotPasswordBtn = document.getElementById('auth-forgot-password');
   forgotPasswordBtn.addEventListener('click', async event => {
     openResetPasswordModal();
@@ -117,15 +124,6 @@ if (window.location.pathname.includes('/register.html')) {
       }
     } catch (error) {
       formBtn.disabled = true;
-    }
-  });
-
-  emailInput.addEventListener('input', event => {
-    try {
-      validationEmail(emailInput.value);
-      emailError.textContent = '';
-    } catch (error) {
-      emailError.textContent = error.message;
     }
   });
 }

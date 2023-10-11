@@ -52,10 +52,12 @@ export function openResetPasswordModal() {
       validationEmail(emailInput.value.trim());
       await sendPasswordResetEmail(auth, emailInput.value.trim());
       emailError.textContent = '';
+      emailInput.classList.remove('account-modal__input--error');
       confirmBtn.disabled = false;
 
     } catch(error) {
       emailError.textContent = error.message;
+      emailInput.classList.add('account-modal__input--error');
       confirmBtn.disabled = true;
     }
   });
@@ -133,8 +135,10 @@ export function openDeleteAccountModal(user) {
   passwordInput.addEventListener('input', event => {
     if (event.currentTarget.value === '') {
       confirmBtn.disabled = true;
+      passwordInput.classList.add('account-modal__input--error');
     } else {
       confirmBtn.disabled = false;
+      passwordInput.classList.remove('account-modal__input--error');
     }
   });
 
@@ -258,8 +262,10 @@ export function openChangePasswordModal(user) {
     try {
       validationPassword(event.currentTarget.value.trim());
       newPasswordError.textContent = '';
+      newPasswordInput.classList.remove('account-modal__input--error');
     } catch (error) {
       newPasswordError.textContent = error.message;
+      newPasswordInput.classList.add('account-modal__input--error');
     }
   });
 
@@ -363,8 +369,10 @@ export function openChangeEmailModal(user) {
     try {
       validationEmail(event.currentTarget.value.trim());
       newEmailError.textContent = '';
+      newEmailInput.classList.remove('account-modal__input--error');
     } catch (error) {
       newEmailError.textContent = error.message;
+      newEmailInput.classList.add('account-modal__input--error');
     }
   });
 

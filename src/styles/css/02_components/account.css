@@ -7,6 +7,7 @@
   display: none;
 }
 .account-modal {
+  overflow: hidden;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -15,8 +16,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 16px;
-  padding: 38px 50px;
+  gap: 15px;
+  padding: 40px;
   background-color: #ffffff;
   transform: translate(-50%, -50%);
   min-height: 200px;
@@ -25,6 +26,7 @@
 }
 .account-modal__title {
   font-size: 18px;
+  font-weight: 700;
   color: #333333;
 }
 .account-modal__btn {
@@ -95,6 +97,12 @@
 .account-modal__input:focus-visible {
   border-color: #9873FF;
 }
+.account-modal__input--error {
+  border-color: #F06A4D;
+}
+.account-modal__input--error:focus-visible {
+  border-color: #F06A4D;
+}
 .account-modal__descr-btn {
   cursor: pointer;
   text-decoration: underline;
@@ -103,7 +111,7 @@
   outline: none;
 }
 .account-modal__descr-btn:focus-visible {
-  color: #F06A4D;
+  color: #9873FF;
   text-decoration: none;
 }
 .account-modal__descr-btn:hover {
@@ -112,16 +120,17 @@
 }
 .account-modal__btn-container {
   display: flex;
-  gap: 16px;
+  gap: 15px;
   align-items: center;
 }
 .account__container {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 15px;
 }
 .account__title {
   font-size: 18px;
+  font-weight: 700;
   color: #333333;
 }
 .account__input {
@@ -144,10 +153,16 @@
 .account__input:focus-visible {
   border-color: #9873FF;
 }
+.account__input--error {
+  border-color: #F06A4D;
+}
+.account__input--error:focus-visible {
+  border-color: #F06A4D;
+}
 .account__danger-zone {
   display: flex;
-  gap: 16px;
-  padding-top: 16px;
+  gap: 15px;
+  padding-top: 15px;
   border-top: 1px solid #F06A4D;
 }
 .account__btn {

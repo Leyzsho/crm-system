@@ -7,10 +7,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 15px;
 }
 .auth__title {
   font-size: 18px;
+  font-weight: 700;
   color: #333333;
 }
 .auth__descr-btn {
@@ -21,7 +22,7 @@
   outline: none;
 }
 .auth__descr-btn:focus-visible {
-  color: #F06A4D;
+  color: #9873FF;
   text-decoration: none;
 }
 .auth__descr-btn:hover {
@@ -52,6 +53,12 @@
 }
 .auth__input:focus-visible {
   border-color: #9873FF;
+}
+.auth__input--error {
+  border-color: #F06A4D;
+}
+.auth__input--error:focus-visible {
+  border-color: #F06A4D;
 }
 .auth__btn {
   cursor: pointer;
