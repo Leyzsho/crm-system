@@ -21,35 +21,16 @@
     }
 
     &__label {
-      width: 100%;
       position: relative;
+      width: 100%;
     }
 
     &__input {
       @include defaultInput;
-      width: 100%;
-      text-align: center;
-
-      &::placeholder {
-        text-align: center;
-      }
     }
 
     &__descr-btn {
-      cursor: pointer;
-      text-decoration: underline;
-      font-size: 16px;
-      color: $color5;
-      outline: none;
-      transition: color .3s ease-in-out;
-
-      &:focus-visible {
-        color: $color6;
-      }
-
-      &:hover {
-        text-decoration: none;
-      }
+      @include defaultLink;
     }
 
     &__btn-container {

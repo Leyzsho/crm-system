@@ -6,13 +6,13 @@
   <title>skb | Регистрация</title>
   <link rel="stylesheet" href="./css/normalize.css">
   <link rel="stylesheet" href="./css/main.css">
-  <script type="module" src="./js/auth/registerOrLogin.js"></script>
+  <script type="module" src="./js/user/auth.js"></script>
 </head>
 <body>
   <header class="header">
     <div class="container header__container">
       <img class="logo header__logo" src="./images/logo.svg" alt="логотип" draggable="false">
-      <h1 class="title header__title">Добро пожаловать на SKB! Для того чтобы использовать CRM-систему, вы должны зарегистрироваться на сайте.</h1>
+      <h1 class="title header__title">Добро пожаловать на skb! Для того чтобы использовать CRM-систему, вы должны зарегистрироваться на сайте.</h1>
     </div>
   </header>
   <main class="main">
@@ -20,15 +20,15 @@
       <h1 class="title title--center">Регистрация</h1>
       <form class="auth" id="auth">
         <label class="auth__label">
-          <input class="auth__input" id="auth-email" type="text" placeholder="Введите email" required>
+          <input class="auth__input" id="auth-email" type="text" required>
           <p class="error" id="auth-email-error"></p>
         </label>
         <label class="auth__label">
-          <input class="auth__input" id="auth-password" type="password" placeholder="Введите пароль" required>
+          <input class="auth__input" id="auth-password" type="password" required>
           <p class="error" id="auth-password-error"></p>
         </label>
         <label class="auth__label">
-          <input class="auth__input" id="auth-repeat-password" type="password" placeholder="Повторите пароль" required>
+          <input class="auth__input" id="auth-repeat-password" type="password" required>
           <p class="error" id="auth-repeat-password-error"></p>
         </label>
         <button class="auth__btn" id="form-btn">Зарегистрироваться</button>

@@ -1,4 +1,4 @@
-import app from '../firebase.js';
+import app from '../utils/firebase.js';
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js';
 import { openChangeEmailModal, openChangePasswordModal, openDeleteAccountModal, openSignOutModal } from './modals.js';
 const auth = getAuth(app);
@@ -39,4 +39,3 @@ onAuthStateChanged(auth, async (user) => {
     window.location.href = './register.html';
   }
 });
-

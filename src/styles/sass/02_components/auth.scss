@@ -12,35 +12,17 @@
   }
 
   &__descr-btn {
-    cursor: pointer;
-    text-decoration: underline;
-    font-size: 16px;
-    color: $color5;
-    outline: none;
-    transition: color .3s ease-in-out;
-
-    &:focus-visible {
-      color: $color6;
-    }
-
-    &:hover {
-      text-decoration: none;
-    }
+    @include defaultLink;
   }
 
   &__label {
-    width: 300px;
     position: relative;
+    width: 300px;
   }
 
   &__input {
     width: 100%;
-    text-align: center;
     @include defaultInput;
-
-    &::placeholder {
-      text-align: center;
-    }
   }
 
   &__btn {

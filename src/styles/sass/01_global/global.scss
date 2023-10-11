@@ -108,18 +108,9 @@ body {
     text-align: center;
   }
 
-  &__account-link {
+  &__link {
+    @include defaultLink;
     margin-left: auto;
-    outline: none;
-    transition: color .3s ease-in-out;
-
-    &:focus-visible {
-      color: $color5;
-    }
-
-    &:hover {
-      color: $color5;
-    }
   }
 }
 
@@ -148,13 +139,11 @@ body {
 }
 
 .error {
-  text-align: center;
   font-size: 14px;
   color: $color6;
 }
 
 .message {
-  text-align: center;
   font-size: 14px;
   color: #00FF00;
 }
@@ -216,5 +205,31 @@ body {
   height: 30px;
   left: 88%;
   top: 50%;
+  background-image: url('../images/show-password.svg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   transform: translateY(-50%);
+  transition: opacity .3s ease-in-out;
+  outline: none;
+
+  &:focus-visible {
+    opacity: 0.6;
+  }
+
+  &:hover {
+    opacity: 0.6;
+  }
+}
+
+.input-placeholder {
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  top: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: $color2;
+  transform-origin: left;
+  transition: transform .3s ease-in-out;
 }

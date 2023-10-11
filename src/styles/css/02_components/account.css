@@ -72,37 +72,42 @@
   animation: loader-move 1.5s linear infinite;
 }
 .account-modal__label {
-  width: 100%;
   position: relative;
+  width: 100%;
 }
 .account-modal__input {
-  padding: 4px 14px;
+  padding: 4px 0;
+  width: 100%;
   height: 40px;
   font-size: 14px;
-  outline-color: #9873FF;
-  border: 1px solid #B0B0B0;
-  width: 100%;
-  text-align: center;
+  font-weight: 600;
+  color: #333333;
+  background-color: initial;
+  outline: none;
+  border: none;
+  border-bottom: 2px solid #C8C5D1;
+  transition: border-color 0.3s ease-in-out;
 }
 .account-modal__input::placeholder {
   font-size: inherit;
   color: #B0B0B0;
 }
-.account-modal__input::placeholder {
-  text-align: center;
+.account-modal__input:focus-visible {
+  border-color: #9873FF;
 }
 .account-modal__descr-btn {
   cursor: pointer;
   text-decoration: underline;
   font-size: 16px;
-  color: #9873FF;
+  color: #333333;
   outline: none;
-  transition: color 0.3s ease-in-out;
 }
 .account-modal__descr-btn:focus-visible {
   color: #F06A4D;
+  text-decoration: none;
 }
 .account-modal__descr-btn:hover {
+  color: #9873FF;
   text-decoration: none;
 }
 .account-modal__btn-container {
@@ -120,15 +125,24 @@
   color: #333333;
 }
 .account__input {
-  padding: 4px 14px;
+  padding: 4px 0;
+  width: 100%;
   height: 40px;
   font-size: 14px;
-  outline-color: #9873FF;
-  border: 1px solid #B0B0B0;
+  font-weight: 600;
+  color: #333333;
+  background-color: initial;
+  outline: none;
+  border: none;
+  border-bottom: 2px solid #C8C5D1;
+  transition: border-color 0.3s ease-in-out;
 }
 .account__input::placeholder {
   font-size: inherit;
   color: #B0B0B0;
+}
+.account__input:focus-visible {
+  border-color: #9873FF;
 }
 .account__danger-zone {
   display: flex;

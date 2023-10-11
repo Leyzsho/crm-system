@@ -124,7 +124,7 @@
 .new-client-btn {
   @include defaultBtn;
 
-  &:hover {
+  &:hover:not(:disabled) {
     .new-client-btn__svg {
       fill: $color1;
     }

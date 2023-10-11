@@ -1,34 +1,12 @@
-import app from '../firebase.js';
+import app from '../utils/firebase.js';
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, deleteUser, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js';
 import { validationEmail, validationPassword } from './validation.js';
 import { openResetPasswordModal } from './modals.js';
+import showHidePassword from '../utils/show-hide-password.js';
+import placeholder from '../utils/placeholder.js';
 const auth = getAuth(app);
 
-// Небольшое пояснение:
-// Так как в данном приложение аутентификация обязательна, все страницы (кроме самой регистрации и входа) отправляют пользователя обратно на страницу регистрации, если у него нет аккаунта или если его email не является верифицированным,
-// я не буду в комментариях подчеркивать тот факт, что пользователя перенаправили на страницу регистрации.
-
-function showHidePassword(input) {
-  const container = input.parentElement;
-  const btn = container.querySelector('svg');
-  const useElement = container.querySelector('use');
-  if (!btn) {
-    throw new Error('Отсуствует кнопка для показа/скрытия пароля');
-  }
-
-  btn.addEventListener('click', event => {
-    event.preventDefault();
-    if (input.type === 'password') {
-      input.type = 'text';
-      useElement.setAttribute('xlink:href', '#hide-password');
-    } else {
-      input.type = 'password';
-      useElement.setAttribute('xlink:href', '#show-password');
-    }
-  });
-}
-
-let checkEmailVerified;
+let checkEmailVerified = null;
 let isEmailNotVerified = true;
 
 onAuthStateChanged(auth, async (user) => {
@@ -68,9 +46,15 @@ const emailError = document.getElementById('auth-email-error');
 const passwordError = document.getElementById('auth-password-error');
 const repeatPasswordError = document.getElementById('auth-repeat-password-error');
 
+placeholder(emailInput, 'Введите почту');
+placeholder(passwordInput, 'Введите пароль');
+showHidePassword(passwordInput);
+
 formBtn.disabled = true;
 
 if (window.location.pathname.includes('/register.html')) {
+  placeholder(repeatPasswordInput, 'Повторите пароль');
+  showHidePassword(repeatPasswordInput);
   // Проверяет валидность данных
   form.addEventListener('input', event => {
     try {
@@ -117,7 +101,6 @@ if (window.location.pathname.includes('/register.html')) {
     }
   });
 } else if (window.location.pathname.includes('/login.html')) {
-  showHidePassword(passwordInput);
 
   const forgotPasswordBtn = document.getElementById('auth-forgot-password');
   forgotPasswordBtn.addEventListener('click', async event => {

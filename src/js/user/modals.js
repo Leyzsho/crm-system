@@ -1,6 +1,8 @@
-import app from '../firebase.js';
+import app from '../utils/firebase.js';
 import { validationEmail, validationPassword } from './validation.js';
 import { getAuth, sendPasswordResetEmail, EmailAuthProvider, reauthenticateWithCredential, deleteUser, signOut, updatePassword, verifyBeforeUpdateEmail, sendEmailVerification } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js';
+import placeholder from '../utils/placeholder.js';
+import showHidePassword from '../utils/show-hide-password.js';
 const auth = getAuth(app);
 
 export function openResetPasswordModal() {
@@ -31,7 +33,6 @@ export function openResetPasswordModal() {
   confirmBtn.textContent = 'Отправить письмо';
 
   emailInput.type = 'text';
-  emailInput.placeholder = 'Введите email';
 
   confirmBtn.disabled = true;
 
@@ -43,6 +44,8 @@ export function openResetPasswordModal() {
   modal.append(confirmBtn);
   document.body.append(darkBackground);
   document.body.append(modal);
+
+  placeholder(emailInput, 'Введите почту');
 
   emailInput.addEventListener('input', async event => {
     try {
@@ -90,6 +93,7 @@ export function openResetPasswordModal() {
 export function openDeleteAccountModal(user) {
   const darkBackground = document.createElement('div');
   const modal = document.createElement('div');
+  const label = document.createElement('label');
   const passwordInput = document.createElement('input');
   const title = document.createElement('h2');
   const closeBtn = document.createElement('button');
@@ -99,6 +103,7 @@ export function openDeleteAccountModal(user) {
 
   darkBackground.classList.add('dark-background');
   modal.classList.add('account-modal');
+  label.classList.add('account-modal__label');
   passwordInput.classList.add('account-modal__input');
   title.classList.add('account-modal__title');
   forgotPasswordBtn.classList.add('account-modal__descr-btn');
@@ -107,20 +112,23 @@ export function openDeleteAccountModal(user) {
   message.classList.add('error');
 
   passwordInput.type = 'password';
-  passwordInput.placeholder = 'Введите пароль';
   title.textContent = 'Удаление аккаунта';
   confirmBtn.textContent = 'Удалить аккаунт';
   confirmBtn.disabled = true;
   forgotPasswordBtn.textContent = 'Я забыл пароль';
 
+  label.append(passwordInput);
   modal.append(closeBtn);
   modal.append(title);
-  modal.append(passwordInput);
+  modal.append(label);
   modal.append(forgotPasswordBtn);
   modal.append(confirmBtn);
   modal.append(message);
   document.body.append(darkBackground);
   document.body.append(modal);
+
+  placeholder(passwordInput, 'Введите пароль');
+  showHidePassword(passwordInput);
 
   passwordInput.addEventListener('input', event => {
     if (event.currentTarget.value === '') {
@@ -198,9 +206,7 @@ export function openChangePasswordModal(user) {
   const message = document.createElement('p');
 
   currentPasswordInput.type = 'password';
-  currentPasswordInput.placeholder = 'Введите старый пароль';
   newPasswordInput.type = 'password';
-  newPasswordInput.placeholder = 'Введите новый пароль';
   confirmBtn.textContent = 'Сменить';
   forgotPasswordBtn.textContent = 'Я забыл пароль';
 
@@ -229,6 +235,11 @@ export function openChangePasswordModal(user) {
   modal.append(message);
   document.body.append(darkBackground);
   document.body.append(modal);
+
+  placeholder(currentPasswordInput, 'Введите старый пароль');
+  placeholder(newPasswordInput, 'Введите новый пароль');
+  showHidePassword(currentPasswordInput);
+  showHidePassword(newPasswordInput);
 
   modal.addEventListener('input', event => {
     try {
@@ -284,8 +295,9 @@ export function openChangeEmailModal(user) {
   const darkBackground = document.createElement('div');
   const modal = document.createElement('div');
   const newEmailLabel = document.createElement('label');
+  const passwordLabel = document.createElement('label');
   const newEmailInput = document.createElement('input');
-  const currentPasswordInput = document.createElement('input');
+  const passwordInput = document.createElement('input');
   const confirmBtn = document.createElement('button');
   const forgotPasswordBtn = document.createElement('button');
   const closeBtn = document.createElement('button');
@@ -294,29 +306,28 @@ export function openChangeEmailModal(user) {
 
   let checkUpdateEmail = null;
 
-  newEmailInput.type = 'text';
-  newEmailInput.placeholder = 'Введите новый email';
-  currentPasswordInput.type = 'password';
-  currentPasswordInput.placeholder = 'Введите пароль';
-  forgotPasswordBtn.textContent = 'Я забыл пароль';
-  confirmBtn.textContent = 'Сменить';
-  confirmBtn.disabled = true;
-
   darkBackground.classList.add('dark-background');
   modal.classList.add('account-modal');
   newEmailLabel.classList.add('account-modal__label');
+  passwordLabel.classList.add('account-modal__label');
   newEmailInput.classList.add('account-modal__input');
-  currentPasswordInput.classList.add('account-modal__input');
+  passwordInput.classList.add('account-modal__input');
   forgotPasswordBtn.classList.add('account-modal__descr-btn');
   confirmBtn.classList.add('account-modal__btn');
   closeBtn.classList.add('close-modal-btn');
   newEmailError.classList.add('error');
 
+  newEmailInput.type = 'text';
+  passwordInput.type = 'password';
+  forgotPasswordBtn.textContent = 'Я забыл пароль';
+  confirmBtn.textContent = 'Сменить';
+  confirmBtn.disabled = true;
 
   newEmailLabel.append(newEmailInput);
   newEmailLabel.append(newEmailError);
+  passwordLabel.append(passwordInput);
   modal.append(newEmailLabel);
-  modal.append(currentPasswordInput);
+  modal.append(passwordLabel);
   modal.append(forgotPasswordBtn);
   modal.append(confirmBtn);
   modal.append(message);
@@ -324,10 +335,15 @@ export function openChangeEmailModal(user) {
   document.body.append(darkBackground);
   document.body.append(modal);
 
+  showHidePassword(passwordInput);
+
+  placeholder(newEmailInput, 'Введите новую почту');
+  placeholder(passwordInput, 'Введите пароль');
+
   document.addEventListener('input', event => {
     try {
       validationEmail(newEmailInput.value.trim());
-      if (currentPasswordInput.value !== '') {
+      if (passwordInput.value !== '') {
         confirmBtn.disabled = false;
       } else {
         confirmBtn.disabled = true;

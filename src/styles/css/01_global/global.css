@@ -102,16 +102,21 @@ body {
 .header__title {
   text-align: center;
 }
-.header__account-link {
-  margin-left: auto;
+.header__link {
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 16px;
+  color: #333333;
   outline: none;
-  transition: color 0.3s ease-in-out;
+  margin-left: auto;
 }
-.header__account-link:focus-visible {
-  color: #9873FF;
+.header__link:focus-visible {
+  color: #F06A4D;
+  text-decoration: none;
 }
-.header__account-link:hover {
+.header__link:hover {
   color: #9873FF;
+  text-decoration: none;
 }
 
 .logo {
@@ -138,13 +143,11 @@ body {
 }
 
 .error {
-  text-align: center;
   font-size: 14px;
   color: #F06A4D;
 }
 
 .message {
-  text-align: center;
   font-size: 14px;
   color: #00FF00;
 }
@@ -200,5 +203,29 @@ body {
   height: 30px;
   left: 88%;
   top: 50%;
+  background-image: url("../images/show-password.svg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   transform: translateY(-50%);
+  transition: opacity 0.3s ease-in-out;
+  outline: none;
+}
+.show-hide-password-btn:focus-visible {
+  opacity: 0.6;
+}
+.show-hide-password-btn:hover {
+  opacity: 0.6;
+}
+
+.input-placeholder {
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  top: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #B0B0B0;
+  transform-origin: left;
+  transition: transform 0.3s ease-in-out;
 }

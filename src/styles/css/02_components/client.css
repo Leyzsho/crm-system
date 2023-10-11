@@ -5,15 +5,24 @@
 }
 .client-search {
   width: 70%;
-  padding: 4px 14px;
+  padding: 4px 0;
+  width: 100%;
   height: 40px;
   font-size: 14px;
-  outline-color: #9873FF;
-  border: 1px solid #B0B0B0;
+  font-weight: 600;
+  color: #333333;
+  background-color: initial;
+  outline: none;
+  border: none;
+  border-bottom: 2px solid #C8C5D1;
+  transition: border-color 0.3s ease-in-out;
 }
 .client-search::placeholder {
   font-size: inherit;
   color: #B0B0B0;
+}
+.client-search:focus-visible {
+  border-color: #9873FF;
 }
 
 .client-list {
@@ -154,7 +163,7 @@
   border-radius: 50%;
   animation: loader-move 1.5s linear infinite;
 }
-.new-client-btn:hover .new-client-btn__svg {
+.new-client-btn:hover:not(:disabled) .new-client-btn__svg {
   fill: #ffffff;
 }
 .new-client-btn__svg {
