@@ -90,6 +90,12 @@
   }
 }
 
+@mixin borderInput {
+  @include defaultInput;
+  padding: 12px 16px;
+  border: 1px solid $color3;
+}
+
 @mixin defaultModal {
   overflow: hidden;
   position: fixed;

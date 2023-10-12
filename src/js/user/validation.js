@@ -5,7 +5,7 @@ export function validationEmail(value) {
     throw new TypeError('Эл. почта не является строкой.');
   }
 
-  value = value.trim();
+  value = value.replace(/\s/g, '');
 
   if (value === '') {
     throw new Error('Пожалуйста, введите эл. почту.');
@@ -23,7 +23,7 @@ export function validationPassword(value) {
     throw new TypeError('Пароль не является строкой.');
   }
 
-  value = value.trim();
+  value = value.replace(/\s/g, '');
 
   if (value === '') {
     throw new Error('Пожалуйста, введите пароль.');
@@ -32,5 +32,4 @@ export function validationPassword(value) {
   if (!passwordRegex.test(value)) {
     throw new Error('Пароль должен состоять из букв и цифр и содержать не меньше 6 символов.');
   }
-
 }

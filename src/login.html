@@ -9,11 +9,13 @@
   <script type="module" src="./js/user/auth.js"></script>
 </head>
 <body>
+  <header class="header">
     <div class="container header__container">
       <img class="logo header__logo" src="./images/logo.svg" alt="логотип" draggable="false">
     </div>
   </header>
-  <main class="main">
+  <div class="lds-ring lds-ring--center" id="loader"><div></div><div></div><div></div><div></div></div>
+  <main class="main main--hidden">
     <div class="container">
       <h1 class="title title--center">Вход</h1>
       <form class="auth" id="auth">

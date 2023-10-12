@@ -6,6 +6,7 @@ const auth = getAuth(app);
 onAuthStateChanged(auth, async (user) => {
   if (user && user.emailVerified) {
     document.getElementById('loader').remove();
+    document.querySelector('.main').classList.remove('main--hidden');
 
     const currentEmail = user.email;
     const accountContainer = document.querySelector('.account');

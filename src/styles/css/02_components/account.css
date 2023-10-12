@@ -3,9 +3,6 @@
     transform: rotate(360deg);
   }
 }
-.account--hidden {
-  display: none;
-}
 .account-modal {
   overflow: hidden;
   position: fixed;

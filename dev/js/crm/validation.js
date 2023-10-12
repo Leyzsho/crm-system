@@ -1,0 +1,5 @@
+export default function validationName(value) {
+  
+}
+
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiIiwic291cmNlcyI6WyJjcm0vdmFsaWRhdGlvbi5qcyJdLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgZGVmYXVsdCBmdW5jdGlvbiB2YWxpZGF0aW9uTmFtZSh2YWx1ZSkge1xuICBcbn1cbiJdLCJmaWxlIjoiY3JtL3ZhbGlkYXRpb24uanMifQ==

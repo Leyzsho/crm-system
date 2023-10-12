@@ -4,7 +4,7 @@
 .client {
   &-search {
     width: 70%;
-    @include defaultInput;
+    @include borderInput;
   }
 
   &-list {
@@ -147,7 +147,7 @@
     }
 
     &__contact {
-      &-list {
+      &-container {
         position: relative;
         display: flex;
         flex-direction: column;
@@ -165,7 +165,14 @@
           right: -100%;
           z-index: -1;
           background-color: $color3;
+          opacity: 0.2;
         }
+      }
+
+      &-list {
+        display: flex;
+        flex-direction: column;
+        gap: $padding;
       }
 
       &-btn {

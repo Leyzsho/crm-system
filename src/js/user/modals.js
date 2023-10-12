@@ -1,8 +1,7 @@
 import app from '../utils/firebase.js';
 import { validationEmail, validationPassword } from './validation.js';
 import { getAuth, sendPasswordResetEmail, EmailAuthProvider, reauthenticateWithCredential, deleteUser, signOut, updatePassword, verifyBeforeUpdateEmail, sendEmailVerification } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js';
-import placeholder from '../utils/placeholder.js';
-import showHidePassword from '../utils/show-hide-password.js';
+import { showHidePassword, placeholder, withoutSpace } from '../utils/input.js';
 const auth = getAuth(app);
 
 export function openResetPasswordModal() {
@@ -46,6 +45,10 @@ export function openResetPasswordModal() {
   document.body.append(modal);
 
   placeholder(emailInput, 'Введите почту');
+
+  modal.addEventListener('input', event => {
+    withoutSpace(event.target);
+  });
 
   emailInput.addEventListener('input', async event => {
     try {
@@ -132,6 +135,10 @@ export function openDeleteAccountModal(user) {
   placeholder(passwordInput, 'Введите пароль');
   showHidePassword(passwordInput);
 
+  modal.addEventListener('input', event => {
+    withoutSpace(event.target);
+  });
+
   passwordInput.addEventListener('input', event => {
     if (event.currentTarget.value === '') {
       confirmBtn.disabled = true;
@@ -185,6 +192,10 @@ export function openSignOutModal() {
   modal.append(confirmBtn);
   document.body.append(darkBackground);
   document.body.append(modal);
+
+  modal.addEventListener('input', event => {
+    withoutSpace(event.target);
+  });
 
   confirmBtn.addEventListener('click', event => {
     signOut(auth);
@@ -246,6 +257,7 @@ export function openChangePasswordModal(user) {
   showHidePassword(newPasswordInput);
 
   modal.addEventListener('input', event => {
+    withoutSpace(event.target);
     try {
       validationPassword(newPasswordInput.value.trim());
       if (currentPasswordInput.value !== '') {
@@ -346,7 +358,8 @@ export function openChangeEmailModal(user) {
   placeholder(newEmailInput, 'Введите новую почту');
   placeholder(passwordInput, 'Введите пароль');
 
-  document.addEventListener('input', event => {
+  modal.addEventListener('input', event => {
+    withoutSpace(event.target);
     try {
       validationEmail(newEmailInput.value.trim());
       if (passwordInput.value !== '') {

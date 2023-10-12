@@ -1,6 +1,23 @@
-import placeholder from "../utils/placeholder.js";
+import { onlyLetters, placeholder, withoutSpace } from '../utils/input.js';
 
 export function openClientModal(way, data) {
+  function createContact(list) {
+    const contactItem = document.createElement('li');
+    const contactSelect = document.createElement('select');
+    const contactInput = document.createElement('input');
+    const contactDeleteBtn = document.createElement('button');
+
+    contactItem.classList.add('client-modal__contact-item');
+    contactSelect.classList.add('client-modal__contact-select');
+    contactInput.classList.add('client-modal__contact-input');
+    contactDeleteBtn.classList.add('client-modal__delete-btn');
+
+    contactItem.append(contactSelect);
+    contactItem.append(contactInput);
+    contactItem.append(contactDeleteBtn);
+    list.append(contactItem);
+  }
+
   const darkBackground = document.createElement('div');
   const closeBtn = document.createElement('button');
   const modal = document.createElement('div');
@@ -12,11 +29,9 @@ export function openClientModal(way, data) {
   const nameInput = document.createElement('input');
   const secondNameInput = document.createElement('input');
   const lastNameInput = document.createElement('input');
-  const nameError = document.createElement('p');
-  const secondNameError = document.createElement('p');
-  const lastNameError = document.createElement('p');
+  const contactContainer = document.createElement('div');
   const contactList = document.createElement('ul');
-  const contactBtn = document.createElement('li');
+  const contactBtn = document.createElement('button');
   const message = document.createElement('p');
   const confirmBtn = document.createElement('button');
   const cancelBtn = document.createElement('button');
@@ -32,9 +47,7 @@ export function openClientModal(way, data) {
   nameInput.classList.add('client-modal__input');
   secondNameInput.classList.add('client-modal__input');
   lastNameInput.classList.add('client-modal__input');
-  nameError.classList.add('error');
-  secondNameError.classList.add('error');
-  lastNameError.classList.add('error');
+  contactContainer.classList.add('client-modal__contact-container');
   contactList.classList.add('client-modal__contact-list');
   contactBtn.classList.add('client-modal__contact-btn');
   confirmBtn.classList.add('client-modal__btn');
@@ -45,24 +58,47 @@ export function openClientModal(way, data) {
   lastNameInput.type = 'text';
   contactBtn.textContent = 'Добавить контакт';
   contactBtn.setAttribute('tabindex', '0');
+  confirmBtn.disabled = true;
 
   titleContainer.append(title);
   nameLabel.append(nameInput);
-  nameLabel.append(nameError);
   secondNameLabel.append(secondNameInput);
-  secondNameLabel.append(secondNameError);
-  lastNameLabel.append(lastNameInput);
-  lastNameLabel.append(lastNameError);
-  contactList.append(contactBtn);
+  lastNameLabel.append(lastNameInput);;
+  contactContainer.append(contactBtn);
   modal.append(closeBtn);
   modal.append(titleContainer);
   modal.append(nameLabel);
   modal.append(secondNameLabel);
   modal.append(lastNameLabel);
-  modal.append(contactList);
+  modal.append(contactContainer);
   modal.append(message);
   modal.append(confirmBtn);
   modal.append(cancelBtn);
+
+  modal.addEventListener('input', event => {
+    withoutSpace(event.target);
+    onlyLetters(event.target);
+    if (nameInput.value !== '' && secondNameInput.value !== '') {
+      confirmBtn.disabled = false;
+    } else {
+      confirmBtn.disabled = true;
+    }
+  });
+
+  cancelBtn.addEventListener('click', event => {
+    modal.remove();
+    darkBackground.remove();
+  });
+
+  closeBtn.addEventListener('click', event => {
+    modal.remove();
+    darkBackground.remove();
+  });
+
+  contactBtn.addEventListener('click', event => {
+    contactContainer.prepend(contactList);
+    createContact(contactList);
+  });
 
   if (way === 'create') {
     title.textContent = 'Новый клиент';

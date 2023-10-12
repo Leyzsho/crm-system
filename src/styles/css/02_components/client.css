@@ -16,6 +16,8 @@
   border: none;
   border-bottom: 2px solid #C8C5D1;
   transition: border-color 0.3s ease-in-out;
+  padding: 12px 16px;
+  border: 1px solid #C8C5D1;
 }
 .client-search::placeholder {
   font-size: inherit;
@@ -180,7 +182,7 @@
 .client-modal__input--error:focus-visible {
   border-color: #F06A4D;
 }
-.client-modal__contact-list {
+.client-modal__contact-container {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -189,7 +191,7 @@
   width: 100%;
   padding: 25px 0;
 }
-.client-modal__contact-list::before {
+.client-modal__contact-container::before {
   content: "";
   position: absolute;
   height: 100%;
@@ -198,6 +200,12 @@
   right: -100%;
   z-index: -1;
   background-color: #C8C5D1;
+  opacity: 0.2;
+}
+.client-modal__contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 .client-modal__contact-btn {
   cursor: pointer;

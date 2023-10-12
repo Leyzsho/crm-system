@@ -69,10 +69,8 @@ body {
   position: relative;
   padding-top: 40px;
 }
-.main__lds-ring {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
+.main--hidden {
+  visibility: hidden;
 }
 .main__title {
   margin-bottom: 10px;

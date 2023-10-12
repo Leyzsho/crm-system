@@ -2,8 +2,7 @@ import app from '../utils/firebase.js';
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, deleteUser, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js';
 import { validationEmail, validationPassword } from './validation.js';
 import { openResetPasswordModal } from './modals.js';
-import showHidePassword from '../utils/show-hide-password.js';
-import placeholder from '../utils/placeholder.js';
+import { showHidePassword, placeholder, withoutSpace } from '../utils/input.js';
 const auth = getAuth(app);
 
 let checkEmailVerified = null;
@@ -33,7 +32,6 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// общие константы страницы регистрации и входа
 const form = document.getElementById('auth');
 const formBtn = document.getElementById('form-btn');
 
@@ -50,7 +48,14 @@ placeholder(emailInput, 'Введите почту');
 placeholder(passwordInput, 'Введите пароль');
 showHidePassword(passwordInput);
 
+document.getElementById('loader').remove();
+document.querySelector('.main').classList.remove('main--hidden');
+
 formBtn.disabled = true;
+
+form.addEventListener('input', event => {
+  withoutSpace(event.target);
+});
 
 emailInput.addEventListener('input', event => {
   try {

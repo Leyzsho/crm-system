@@ -2,9 +2,6 @@
 @import '../00_sass-components/variables.scss';
 
 .account {
-  &--hidden {
-    display: none;
-  }
 
   &-modal {
     @include defaultModal;
