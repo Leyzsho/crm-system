@@ -1,21 +1,104 @@
 import { onlyLetters, placeholder, withoutSpace } from '../utils/input.js';
 
 export function openClientModal(way, data) {
-  function createContact(list) {
-    const contactItem = document.createElement('li');
-    const contactSelect = document.createElement('select');
-    const contactInput = document.createElement('input');
-    const contactDeleteBtn = document.createElement('button');
+  class Contact {
+    static count = data ? 5 : 0;
+    static requiredInputs = [];
 
-    contactItem.classList.add('client-modal__contact-item');
-    contactSelect.classList.add('client-modal__contact-select');
-    contactInput.classList.add('client-modal__contact-input');
-    contactDeleteBtn.classList.add('client-modal__delete-btn');
+    constructor (list) {
+      this.list = list;
+      this.requiredInputs = requiredInputs;
+      Contact.count++;
+      this.createContact();
 
-    contactItem.append(contactSelect);
-    contactItem.append(contactInput);
-    contactItem.append(contactDeleteBtn);
-    list.append(contactItem);
+      if (Contact.count >= 10) {
+        document.getElementById('create-contact').classList.add('client-modal__contact-btn--hidden');
+      }
+    }
+
+    static checkRequiredInputs() {
+      const allValuesNotEmpty = Contact.requiredInputs.every(input => input.value !== '');
+
+      if (!allValuesNotEmpty) {
+        throw new Error();
+      }
+    }
+
+    createContact() {
+      this.contactItem = document.createElement('li');
+      this.contactSelect = document.createElement('select');
+      this.contactInput = document.createElement('input');
+      this.contactDeleteBtn = document.createElement('button');
+
+      this.phoneOption = document.createElement('option');
+      this.emailOption = document.createElement('option');
+      this.vkOption = document.createElement('option');
+      this.twitterOption = document.createElement('option');
+
+      this.contactItem.classList.add('client-modal__contact-item');
+      this.contactSelect.classList.add('client-modal__contact-select');
+      this.contactInput.classList.add('client-modal__contact-input');
+      this.contactDeleteBtn.classList.add('client-modal__contact-delete-btn');
+
+      this.phoneOption.value = 'телефон';
+      this.emailOption.value = 'email';
+      this.vkOption.value = 'vk';
+      this.twitterOption.value = 'twitter';
+      this.phoneOption.textContent = 'телефон';
+      this.emailOption.textContent = 'email';
+      this.vkOption.textContent = 'vk';
+      this.twitterOption.textContent = 'twitter';
+
+      this.contactInput.placeholder = '+79221110500';
+
+      this.contactSelect.append(this.phoneOption);
+      this.contactSelect.append(this.emailOption);
+      this.contactSelect.append(this.vkOption);
+      this.contactSelect.append(this.twitterOption);
+      this.contactItem.append(this.contactSelect);
+      this.contactItem.append(this.contactInput);
+      this.contactItem.append(this.contactDeleteBtn);
+      this.list.append(this.contactItem);
+
+      Contact.requiredInputs.push(this.contactInput);
+
+      this.contactDeleteBtn.addEventListener('click', event => {
+        this.deleteContact();
+      });
+
+      this.contactSelect.addEventListener('change', event => {
+        this.changePlaceholder();
+      });
+
+      new Choices(this.contactSelect, {
+        searchEnabled: false,
+        itemSelectText: '',
+        position: 'bottom',
+      });
+    }
+
+    deleteContact() {
+      Contact.count--;
+      if (Contact.count === 0) {
+        this.list.remove();
+      } else if (Contact.count >= 9) {
+        document.getElementById('create-contact').classList.remove('client-modal__contact-btn--hidden');
+      }
+      this.contactItem.remove();
+      Contact.requiredInputs.splice(1, this.contactInput);
+    }
+
+    changePlaceholder() {
+      if (this.contactSelect.value === 'телефон') {
+        this.contactInput.placeholder = '+79221110500';
+      } else if (this.contactSelect.value === 'email') {
+        this.contactInput.placeholder = 'example@mail.com';
+      } else if (this.contactSelect.value === 'vk') {
+        this.contactInput.placeholder = '@vk.com/example';
+      } else if (this.contactSelect.value === 'twitter') {
+        this.contactInput.placeholder = '@example';
+      }
+    }
   }
 
   const darkBackground = document.createElement('div');
@@ -36,6 +119,8 @@ export function openClientModal(way, data) {
   const confirmBtn = document.createElement('button');
   const cancelBtn = document.createElement('button');
 
+  const requiredInputs = [nameInput, secondNameInput];
+
   darkBackground.classList.add('dark-background');
   closeBtn.classList.add('close-modal-btn');
   modal.classList.add('client-modal');
@@ -52,6 +137,8 @@ export function openClientModal(way, data) {
   contactBtn.classList.add('client-modal__contact-btn');
   confirmBtn.classList.add('client-modal__btn');
   cancelBtn.classList.add('client-modal__descr-btn');
+
+  contactBtn.id = 'create-contact';
 
   nameInput.type = 'text';
   secondNameInput.type = 'text';
@@ -77,10 +164,18 @@ export function openClientModal(way, data) {
 
   modal.addEventListener('input', event => {
     withoutSpace(event.target);
-    onlyLetters(event.target);
-    if (nameInput.value !== '' && secondNameInput.value !== '') {
-      confirmBtn.disabled = false;
-    } else {
+    if (!event.target.classList.contains('client-modal__contact-input')) {
+      onlyLetters(event.target);
+    }
+
+    try {
+      Contact.checkRequiredInputs();
+      if (nameInput.value !== '' && secondNameInput.value !== '') {
+        confirmBtn.disabled = false;
+      } else {
+        confirmBtn.disabled = true;
+      }
+    } catch (error) {
       confirmBtn.disabled = true;
     }
   });
@@ -97,7 +192,8 @@ export function openClientModal(way, data) {
 
   contactBtn.addEventListener('click', event => {
     contactContainer.prepend(contactList);
-    createContact(contactList);
+    const contact = new Contact(contactList);
+    confirmBtn.disabled = true;
   });
 
   if (way === 'create') {

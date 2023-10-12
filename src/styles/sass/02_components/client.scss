@@ -14,6 +14,17 @@
     min-height: 320px;
     background-color: $color1;
 
+    &__message {
+      cursor: pointer;
+      @include defaultLink;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -25%);
+      font-size: 18px;
+      font-weight: 600;
+    }
+
     &__loader {
       position: absolute;
       top: 50%;
@@ -30,7 +41,7 @@
       background-color: $color1;
       border-bottom: 1px solid $color2;
 
-      &:nth-child(2) {
+      &:nth-child(1) {
         padding: 0 20px;
         padding-bottom: 8px;
         background-color: #F5F5F5;
@@ -124,8 +135,11 @@
 
   &-modal {
     @include defaultModal;
+    justify-content: flex-start;
     max-width: 450px;
     width: 100%;
+    height: 520px;
+    overflow-y: scroll;
 
     &__title-container {
       display: flex;
@@ -170,9 +184,24 @@
       }
 
       &-list {
+        width: 100%;
         display: flex;
         flex-direction: column;
         gap: $padding;
+
+      }
+
+      &-item {
+        width: 100%;
+        height: 40px;
+        display: grid;
+        grid-template-columns: 124px 1fr 28px;
+      }
+
+      &-input {
+        @include borderInput;
+        border-left: none;
+        border-right: none;
       }
 
       &-btn {
@@ -189,12 +218,36 @@
         outline: none;
         transition: color .3s ease-in-out;
 
+        &--hidden {
+          display: none;
+        }
+
         &:focus-visible {
           color: $color5;
         }
 
         &:hover {
           color: $color5;
+        }
+      }
+
+      &-delete-btn {
+        cursor: pointer;
+        background-image: url('../images/delete-gray.svg');
+        background-position: center;
+        background-size: 16px 16px;
+        background-repeat: no-repeat;
+        background-color: #E7E5EB;
+        border: 1px solid $color3;
+        transition: background-image .3s ease-in-out, border-color .3s ease-in-out;
+        outline: none;
+
+        &:focus-visible {
+          border-color: $color5;
+        }
+
+        &:hover {
+          background-image: url('../images/delete-red.svg');
         }
       }
     }

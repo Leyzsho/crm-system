@@ -1,4 +1,4 @@
-import app from '../utils/firebase.js';
+import app from '../utils/firebase-init.js';
 import { validationEmail, validationPassword } from './validation.js';
 import { getAuth, sendPasswordResetEmail, EmailAuthProvider, reauthenticateWithCredential, deleteUser, signOut, updatePassword, verifyBeforeUpdateEmail, sendEmailVerification } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js';
 import { showHidePassword, placeholder, withoutSpace } from '../utils/input.js';

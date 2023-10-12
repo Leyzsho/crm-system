@@ -4,8 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>skb | CRM-system</title>
+  <link href="https://cdn.jsdelivr.net/npm/choices.js@10.2.0/public/assets/styles/choices.min.css" rel="stylesheet">
   <link rel="stylesheet" href="./css/normalize.css">
   <link rel="stylesheet" href="./css/main.css">
+  <script src="https://cdn.jsdelivr.net/npm/choices.js@10.2.0/public/assets/scripts/choices.min.js"></script>
   <script type="module" src="./js/crm/crm.js"></script>
 </head>
 <body>
@@ -21,9 +23,6 @@
     <div class="container main__container">
       <h1 class="title main__title">Клиенты</h1>
       <ul class="client-list main__client-list">
-        <li class="client-list__loader">
-          <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
-        </li>
         <li class="client-list__item">
           <div class="client-list__category">
             <svg class="client-list__arrow"><use xlink:href="#arrow-upward"></use></svg>
@@ -48,6 +47,9 @@
           <div class="client-list__category">
             <span class="client-list__category-name">Действия</span>
           </div>
+        </li>
+        <li class="client-list__loader">
+          <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
         </li>
       </ul>
       <button disabled class="new-client-btn"><svg class="new-client-btn__svg"><use xlink:href="#new-client"></use></svg>Добавить клиента</button>

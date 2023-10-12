@@ -1,4 +1,4 @@
-import app from '../utils/firebase.js';
+import app from '../utils/firebase-init.js';
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, deleteUser, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js';
 import { validationEmail, validationPassword } from './validation.js';
 import { openResetPasswordModal } from './modals.js';
