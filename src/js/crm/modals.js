@@ -1,13 +1,16 @@
 import { onlyLetters, placeholder, withoutSpace } from '../utils/input.js';
+import { writeClientData } from './firebase-api.js';
 
-export function openClientModal(way, data) {
+export function openClientModal(way, user, data) {
   class Contact {
-    static count = data ? 5 : 0;
-    static requiredInputs = [];
+    static count = way === 'create' ? 0 : data;
+    static inputs = [];
 
-    constructor (list) {
+    constructor (list, {nameInput, secondNameInput, confirmBtn}) {
       this.list = list;
-      this.requiredInputs = requiredInputs;
+      this.nameInput = nameInput;
+      this.secondNameInput = secondNameInput;
+      this.confirmBtn = confirmBtn;
       Contact.count++;
       this.createContact();
 
@@ -16,11 +19,11 @@ export function openClientModal(way, data) {
       }
     }
 
-    static checkRequiredInputs() {
-      const allValuesNotEmpty = Contact.requiredInputs.every(input => input.value !== '');
+    static inputsHaveContent() {
+      const allValuesNotEmpty = Contact.inputs.every(input => input.value !== '');
 
       if (!allValuesNotEmpty) {
-        throw new Error();
+        throw new Error('У каких-то контактов нет значения.');
       }
     }
 
@@ -34,39 +37,45 @@ export function openClientModal(way, data) {
       this.emailOption = document.createElement('option');
       this.vkOption = document.createElement('option');
       this.twitterOption = document.createElement('option');
+      this.otherOption = document.createElement('option');
 
       this.contactItem.classList.add('client-modal__contact-item');
       this.contactSelect.classList.add('client-modal__contact-select');
       this.contactInput.classList.add('client-modal__contact-input');
       this.contactDeleteBtn.classList.add('client-modal__contact-delete-btn');
 
-      this.phoneOption.value = 'телефон';
-      this.emailOption.value = 'email';
-      this.vkOption.value = 'vk';
-      this.twitterOption.value = 'twitter';
+      this.phoneOption.value = 'phone';
       this.phoneOption.textContent = 'телефон';
+      this.emailOption.value = 'email';
       this.emailOption.textContent = 'email';
+      this.vkOption.value = 'vk';
       this.vkOption.textContent = 'vk';
+      this.twitterOption.value = 'twitter';
       this.twitterOption.textContent = 'twitter';
-
-      this.contactInput.placeholder = '+79221110500';
+      this.otherOption.value = 'other';
+      this.otherOption.textContent = 'другое';
 
       this.contactSelect.append(this.phoneOption);
       this.contactSelect.append(this.emailOption);
       this.contactSelect.append(this.vkOption);
       this.contactSelect.append(this.twitterOption);
+      this.contactSelect.append(this.otherOption);
       this.contactItem.append(this.contactSelect);
       this.contactItem.append(this.contactInput);
       this.contactItem.append(this.contactDeleteBtn);
       this.list.append(this.contactItem);
 
-      Contact.requiredInputs.push(this.contactInput);
+      this.contactInput.dataset.type = this.contactSelect.value;
+      this.contactInput.placeholder = '+79221110500';
+
+      Contact.inputs.push(this.contactInput);
 
       this.contactDeleteBtn.addEventListener('click', event => {
         this.deleteContact();
       });
 
       this.contactSelect.addEventListener('change', event => {
+        this.contactInput.dataset.type = event.currentTarget.value;
         this.changePlaceholder();
       });
 
@@ -78,26 +87,48 @@ export function openClientModal(way, data) {
     }
 
     deleteContact() {
+      const index = Contact.inputs.indexOf(this.contactInput);
+      if (index !== -1) {
+          Contact.inputs.splice(index, 1);
+      }
+
+      checkInputsContent(this.nameInput, this.secondNameInput, this.confirmBtn);
+
       Contact.count--;
       if (Contact.count === 0) {
         this.list.remove();
       } else if (Contact.count >= 9) {
         document.getElementById('create-contact').classList.remove('client-modal__contact-btn--hidden');
       }
+
       this.contactItem.remove();
-      Contact.requiredInputs.splice(1, this.contactInput);
     }
 
     changePlaceholder() {
-      if (this.contactSelect.value === 'телефон') {
+      if (this.contactInput.dataset.type === 'phone') {
         this.contactInput.placeholder = '+79221110500';
-      } else if (this.contactSelect.value === 'email') {
+      } else if (this.contactInput.dataset.type === 'email') {
         this.contactInput.placeholder = 'example@mail.com';
-      } else if (this.contactSelect.value === 'vk') {
-        this.contactInput.placeholder = '@vk.com/example';
-      } else if (this.contactSelect.value === 'twitter') {
-        this.contactInput.placeholder = '@example';
+      } else if (this.contactInput.dataset.type === 'vk') {
+        this.contactInput.placeholder = '@vk.com/vk';
+      } else if (this.contactInput.dataset.type === 'twitter') {
+        this.contactInput.placeholder = '@twitter';
+      } else if (this.contactInput.dataset.type === 'other') {
+        this.contactInput.placeholder = '';
       }
+    }
+  }
+
+  function checkInputsContent(nameInput, secondNameInput, confirmBtn) {
+    try {
+      Contact.inputsHaveContent();
+      if (nameInput.value !== '' && secondNameInput.value !== '') {
+        confirmBtn.disabled = false;
+      } else {
+        confirmBtn.disabled = true;
+      }
+    } catch (error) {
+      confirmBtn.disabled = true;
     }
   }
 
@@ -118,8 +149,6 @@ export function openClientModal(way, data) {
   const message = document.createElement('p');
   const confirmBtn = document.createElement('button');
   const cancelBtn = document.createElement('button');
-
-  const requiredInputs = [nameInput, secondNameInput];
 
   darkBackground.classList.add('dark-background');
   closeBtn.classList.add('close-modal-btn');
@@ -154,8 +183,8 @@ export function openClientModal(way, data) {
   contactContainer.append(contactBtn);
   modal.append(closeBtn);
   modal.append(titleContainer);
-  modal.append(nameLabel);
   modal.append(secondNameLabel);
+  modal.append(nameLabel);
   modal.append(lastNameLabel);
   modal.append(contactContainer);
   modal.append(message);
@@ -167,17 +196,7 @@ export function openClientModal(way, data) {
     if (!event.target.classList.contains('client-modal__contact-input')) {
       onlyLetters(event.target);
     }
-
-    try {
-      Contact.checkRequiredInputs();
-      if (nameInput.value !== '' && secondNameInput.value !== '') {
-        confirmBtn.disabled = false;
-      } else {
-        confirmBtn.disabled = true;
-      }
-    } catch (error) {
-      confirmBtn.disabled = true;
-    }
+    checkInputsContent(nameInput, secondNameInput, confirmBtn);
   });
 
   cancelBtn.addEventListener('click', event => {
@@ -192,8 +211,17 @@ export function openClientModal(way, data) {
 
   contactBtn.addEventListener('click', event => {
     contactContainer.prepend(contactList);
-    const contact = new Contact(contactList);
+    new Contact(contactList, {nameInput, secondNameInput, confirmBtn});
     confirmBtn.disabled = true;
+  });
+
+  confirmBtn.addEventListener('click', event => {
+    writeClientData(user.uid, {
+      nameValue: nameInput.value,
+      secondNameValue: secondNameInput.value,
+      lastNameValue: lastNameInput.value,
+      contactsArray: Contact.inputs,
+    });
   });
 
   if (way === 'create') {
@@ -210,7 +238,7 @@ export function openClientModal(way, data) {
   document.body.append(darkBackground);
   document.body.append(modal);
 
-  placeholder(nameInput, 'Фамилия*');
-  placeholder(secondNameInput, 'Имя*');
+  placeholder(secondNameInput, 'Фамилия*');
+  placeholder(nameInput, 'Имя*');
   placeholder(lastNameInput, 'Отчество');
 }

@@ -300,7 +300,7 @@
   background-repeat: no-repeat;
   background-color: #E7E5EB;
   border: 1px solid #C8C5D1;
-  transition: background-image 0.3s ease-in-out, border-color 0.3s ease-in-out;
+  transition: border-color 0.3s ease-in-out;
   outline: none;
 }
 .client-modal__contact-delete-btn:focus-visible {

@@ -1,6 +1,6 @@
 import app from '../utils/firebase-init.js';
-import { getAuth, onAuthStateChanged, deleteUser } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js';
-import { getDatabase, ref, set, onValue } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-database.js';
+import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js';
+import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-database.js';
 import { openClientModal } from './modals.js';
 
 const auth = getAuth(app);
@@ -15,19 +15,22 @@ onAuthStateChanged(auth, async (user) => {
 
       document.querySelector('.client-list__loader').remove();
       newClientBtn.disabled = false;
+      console.log(data);
 
+      const message = document.createElement('li');
       if (data === null) {
-        const message = document.createElement('li');
         message.classList.add('client-list__message');
         message.textContent = 'Добавьте вашего первого клиента';
         clientList.append(message);
         message.addEventListener('click', event => {
-          openClientModal('create');
+          openClientModal('create', user, data);
         });
+      } else {
+        message.remove();
       }
 
       newClientBtn.addEventListener('click', async event => {
-        openClientModal('create');
+        openClientModal('create', user, data);
       });
     });
   } else {

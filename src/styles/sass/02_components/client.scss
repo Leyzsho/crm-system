@@ -239,7 +239,7 @@
         background-repeat: no-repeat;
         background-color: #E7E5EB;
         border: 1px solid $color3;
-        transition: background-image .3s ease-in-out, border-color .3s ease-in-out;
+        transition: border-color .3s ease-in-out;
         outline: none;
 
         &:focus-visible {
