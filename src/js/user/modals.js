@@ -184,7 +184,7 @@ export function openSignOutModal() {
   closeBtn.classList.add('close-modal-btn');
   confirmBtn.classList.add('account-modal__btn', 'account-modal__btn--red');
 
-  title.textContent = 'Выйти с аккаунта?';
+  title.textContent = 'Выйти из аккаунта?';
   confirmBtn.textContent = 'Выйти';
 
   modal.append(closeBtn);

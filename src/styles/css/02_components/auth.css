@@ -29,6 +29,11 @@
   color: #9873FF;
   text-decoration: none;
 }
+.auth__descr-btn:disabled {
+  opacity: 0.7;
+  cursor: default;
+  text-decoration: none;
+}
 .auth__label {
   position: relative;
   width: 300px;
@@ -41,7 +46,7 @@
   font-size: 14px;
   font-weight: 600;
   color: #333333;
-  background-color: initial;
+  background-color: transparent;
   outline: none;
   border: none;
   border-bottom: 2px solid #C8C5D1;
@@ -51,7 +56,11 @@
   font-size: inherit;
   color: #B0B0B0;
 }
+.auth__input:-webkit-autofill {
+  background-color: transparent;
+}
 .auth__input:focus-visible {
+  background-color: transparent;
   border-color: #9873FF;
 }
 .auth__input--error {

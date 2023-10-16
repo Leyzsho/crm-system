@@ -1,4 +1,4 @@
-import { getDatabase, ref, set, get, update } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-database.js';
+import { getDatabase, ref, set, get, update, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.1.1/firebase-database.js';
 
 export async function writeClientData(userId, {
   nameValue,
@@ -19,25 +19,51 @@ export async function writeClientData(userId, {
     contactsQuantity++;
     const type = input.dataset.type;
     const value = input.value;
-    if (contacts[type]) {
-    }
     contacts[`contact${contactsQuantity}:${type}`] = value;
   });
 
-  get(ref(db, clientsRef + 'quantity')).then((snapshot) => {
+  return get(ref(db, 'users/' + userId + '/clientsQuantity')).then((snapshot) => {
     const clientsQuantity = snapshot.val() !== null ? snapshot.val() + 1 : 1;
 
-    set(ref(db, clientsRef + clientsQuantity), {
+    return set(ref(db, clientsRef + clientsQuantity), {
       name,
       secondName,
       lastName,
       contacts,
-    }).then(() => {
-      update(ref(db, clientsRef), {
-        quantity: clientsQuantity,
+      creationDate: serverTimestamp(),
+      lastChange: serverTimestamp(),
+    })
+    .then(() => {
+      return update(ref(db, 'users/' + userId), {
+        clientsQuantity: clientsQuantity,
       });
     });
-  }).catch((error) => {
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+}
+
+export async function deleteClient(userId, clientId) {
+  const db = getDatabase();
+  const clientsRef = 'users/' + userId + '/clients/';
+
+  return get(ref(db, 'users/' + userId)).then(async (snapshot) => {
+    const data = snapshot.val();
+    const newClients = {};
+
+    Object.keys(data.clients).forEach(key => {
+      if (key < clientId) {
+        newClients[key] = data.clients[key];
+      } else if (key > clientId) {
+        newClients[key - 1] = data.clients[key];
+      }
+    });
+
+    await set(ref(db, clientsRef), newClients);
+    await update(ref(db, 'users/' + userId), {clientsQuantity: data.clientsQuantity - 1});
+  })
+  .catch((error) => {
     console.error(error);
   });
 }

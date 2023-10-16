@@ -20,7 +20,6 @@ onAuthStateChanged(auth, async (user) => {
     accountContainer.classList.remove('account--hidden');
     accountEmail.textContent = `email: ${currentEmail}`;
 
-
     changeEmailBtn.addEventListener('click', event => {
       openChangeEmailModal(user);
     });

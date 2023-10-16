@@ -68,7 +68,7 @@ emailInput.addEventListener('input', event => {
   }
 });
 
-if (window.location.pathname.includes('/register.html')) {
+if (window.location.pathname.includes('/register')) {
   placeholder(repeatPasswordInput, 'Повторите пароль');
   showHidePassword(repeatPasswordInput);
   // Проверяет валидность данных
@@ -113,7 +113,7 @@ if (window.location.pathname.includes('/register.html')) {
       repeatPasswordInput.classList.add('auth__input--error');
     }
   });
-} else if (window.location.pathname.includes('/login.html')) {
+} else if (window.location.pathname.includes('/login')) {
   const forgotPasswordBtn = document.getElementById('auth-forgot-password');
   forgotPasswordBtn.addEventListener('click', async event => {
     openResetPasswordModal();
@@ -144,7 +144,7 @@ form.addEventListener('submit', async (event) => {
   formBtn.disabled = true;
   formBtn.append(loaderBtn);
   // Если эта страница для регистрации
-  if (window.location.pathname.includes('/register.html')) {
+  if (window.location.pathname.includes('/register')) {
     // Кнопка для отмены аутентификации
     const cancelAuthBtn = document.createElement('button');
     cancelAuthBtn.classList.add('auth__descr-btn');
@@ -190,7 +190,7 @@ form.addEventListener('submit', async (event) => {
   }
 
   // Если эта страница для входа
-  else if (window.location.pathname.includes('/login.html')) {
+  else if (window.location.pathname.includes('/login')) {
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch(error) {

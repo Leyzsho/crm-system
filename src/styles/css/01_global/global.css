@@ -44,6 +44,13 @@ html {
   box-sizing: inherit;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #F5F5F5 inset;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -85,7 +92,7 @@ body {
 .main__title {
   margin-bottom: 10px;
 }
-.main__client-list {
+.main__client-container {
   margin-bottom: 40px;
 }
 
@@ -124,6 +131,11 @@ body {
 }
 .header__link:hover {
   color: #9873FF;
+  text-decoration: none;
+}
+.header__link:disabled {
+  opacity: 0.7;
+  cursor: default;
   text-decoration: none;
 }
 
@@ -204,6 +216,9 @@ body {
 .close-modal-btn:hover::after {
   background-color: #F06A4D;
 }
+.close-modal-btn:disabled {
+  cursor: default;
+}
 
 .show-hide-password-btn {
   cursor: pointer;
@@ -229,7 +244,7 @@ body {
 
 .input-placeholder {
   position: absolute;
-  z-index: -1;
+  z-index: 6;
   left: 0;
   top: 0;
   font-size: 14px;

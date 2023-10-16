@@ -45,6 +45,13 @@ html {
   box-sizing: inherit;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px #F5F5F5 inset;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -89,7 +96,7 @@ body {
     margin-bottom: 10px;
   }
 
-  &__client-list {
+  &__client-container {
     margin-bottom: 40px;
   }
 }
@@ -206,6 +213,10 @@ body {
   &:hover::after {
     background-color: $color6;
   }
+
+  &:disabled {
+    cursor: default;
+  }
 }
 
 .show-hide-password-btn {
@@ -234,7 +245,7 @@ body {
 
 .input-placeholder {
   position: absolute;
-  z-index: -1;
+  z-index: 6;
   left: 0;
   top: 0;
   font-size: 14px;

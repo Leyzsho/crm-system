@@ -1,7 +1,7 @@
 import { onlyLetters, placeholder, withoutSpace } from '../utils/input.js';
-import { writeClientData } from './firebase-api.js';
+import { deleteClient, writeClientData } from './firebase-api.js';
 
-export function openClientModal(way, user, data) {
+export function openClientModal(way, userId, data) {
   class Contact {
     static count = way === 'create' ? 0 : data;
     static inputs = [];
@@ -36,7 +36,7 @@ export function openClientModal(way, user, data) {
       this.phoneOption = document.createElement('option');
       this.emailOption = document.createElement('option');
       this.vkOption = document.createElement('option');
-      this.twitterOption = document.createElement('option');
+      this.facebookOption = document.createElement('option');
       this.otherOption = document.createElement('option');
 
       this.contactItem.classList.add('client-modal__contact-item');
@@ -50,15 +50,15 @@ export function openClientModal(way, user, data) {
       this.emailOption.textContent = 'email';
       this.vkOption.value = 'vk';
       this.vkOption.textContent = 'vk';
-      this.twitterOption.value = 'twitter';
-      this.twitterOption.textContent = 'twitter';
+      this.facebookOption.value = 'facebook';
+      this.facebookOption.textContent = 'facebook';
       this.otherOption.value = 'other';
       this.otherOption.textContent = 'другое';
 
       this.contactSelect.append(this.phoneOption);
       this.contactSelect.append(this.emailOption);
       this.contactSelect.append(this.vkOption);
-      this.contactSelect.append(this.twitterOption);
+      this.contactSelect.append(this.facebookOption);
       this.contactSelect.append(this.otherOption);
       this.contactItem.append(this.contactSelect);
       this.contactItem.append(this.contactInput);
@@ -111,8 +111,8 @@ export function openClientModal(way, user, data) {
         this.contactInput.placeholder = 'example@mail.com';
       } else if (this.contactInput.dataset.type === 'vk') {
         this.contactInput.placeholder = '@vk.com/vk';
-      } else if (this.contactInput.dataset.type === 'twitter') {
-        this.contactInput.placeholder = '@twitter';
+      } else if (this.contactInput.dataset.type === 'facebook') {
+        this.contactInput.placeholder = '@facebook';
       } else if (this.contactInput.dataset.type === 'other') {
         this.contactInput.placeholder = '';
       }
@@ -215,12 +215,41 @@ export function openClientModal(way, user, data) {
     confirmBtn.disabled = true;
   });
 
-  confirmBtn.addEventListener('click', event => {
-    writeClientData(user.uid, {
+  confirmBtn.addEventListener('click', async event => {
+    const loader = document.createElement('span');
+    event.currentTarget.append(loader);
+
+    event.currentTarget.disabled = true;
+    nameInput.disabled = true;
+    secondNameInput.disabled = true;
+    lastNameInput.disabled = true;
+    Contact.inputs.forEach(input => input.disabled = true);
+    closeBtn.disabled = true;
+    cancelBtn.disabled = true;
+
+    writeClientData(userId, {
       nameValue: nameInput.value,
       secondNameValue: secondNameInput.value,
       lastNameValue: lastNameInput.value,
       contactsArray: Contact.inputs,
+    })
+    .then(() => {
+      modal.remove();
+      darkBackground.remove();
+    })
+    .catch(() => {
+      message.classList.remove('message');
+      message.classList.add('error');
+      message.textContent = 'Что-то пошло не так...';
+      loader.remove();
+
+      event.currentTarget.disabled = false;
+      nameInput.disabled = false;
+      secondNameInput.disabled = false;
+      lastNameInput.disabled = false;
+      closeBtn.disabled = false;
+      cancelBtn.disabled = false;
+      Contact.inputs.forEach(input => input.disabled = false);
     });
   });
 
@@ -241,4 +270,68 @@ export function openClientModal(way, user, data) {
   placeholder(secondNameInput, 'Фамилия*');
   placeholder(nameInput, 'Имя*');
   placeholder(lastNameInput, 'Отчество');
+}
+
+export function openDeleteClient(userId, clientId) {
+  const darkBackground = document.createElement('div');
+  const modal = document.createElement('div');
+  const title = document.createElement('h2');
+  const descr = document.createElement('p');
+  const closeBtn = document.createElement('button');
+  const deleteBtn = document.createElement('button');
+  const cancelBtn = document.createElement('button');
+
+  darkBackground.classList.add('dark-background');
+  modal.classList.add('client-modal');
+  title.classList.add('client-modal__title');
+  descr.classList.add('client-modal__descr');
+  closeBtn.classList.add('close-modal-btn');
+  deleteBtn.classList.add('client-modal__btn');
+  cancelBtn.classList.add('client-modal__descr-btn');
+
+  title.textContent = 'Удалить клиента';
+  descr.textContent = 'Вы действительно хотите удалить данного клиента?';
+  deleteBtn.textContent = 'Удалить';
+  cancelBtn.textContent = 'Отмена';
+
+  modal.append(closeBtn);
+  modal.append(title);
+  modal.append(descr);
+  modal.append(deleteBtn);
+  modal.append(cancelBtn);
+  document.body.append(darkBackground);
+  document.body.append(modal);
+
+  closeBtn.addEventListener('click', event => {
+    modal.remove();
+    darkBackground.remove();
+  });
+
+  cancelBtn.addEventListener('click', event => {
+    modal.remove();
+    darkBackground.remove();
+  });
+
+  deleteBtn.addEventListener('click', event => {
+    const loader = document.createElement('span');
+    deleteBtn.append(loader);
+
+    closeBtn.disabled = true;
+    cancelBtn.disabled = true;
+    deleteBtn.disabled = true;
+
+      deleteClient(userId, clientId)
+      .then(() => {
+        modal.remove();
+        darkBackground.remove();
+      })
+      .catch((error) => {
+        console.log(error);
+        loader.remove();
+
+        closeBtn.disabled = false;
+        cancelBtn.disabled = false;
+        deleteBtn.disabled = false;
+      });
+  });
 }
