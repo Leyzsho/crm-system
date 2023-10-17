@@ -113,28 +113,39 @@ class Client {
       Object.entries(this.contacts).forEach(([type, value]) => {
         const contact = document.createElement('div');
         const tooltip = document.createElement('div');
+        const tooltipType = document.createElement('span');
+        const tooltipValue = document.createElement('span');
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
 
         contact.classList.add('client-list__contact');
         tooltip.classList.add('client-list__contact-tooltip');
+        tooltipType.classList.add('client-list__contact-tooltip-type')
+        tooltipValue.classList.add('client-list__contact-tooltip-value');
         svg.classList.add('client-list__contact-svg');
 
-        tooltip.textContent = value;
+        tooltipValue.textContent = ' ' + value;
 
         if (type.includes('phone')) {
           use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#phone');
+          tooltipType.textContent = 'телефон:';
         } else if (type.includes('email')) {
           use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#email');
+          tooltipType.textContent = 'email:';
         } else if (type.includes('facebook')) {
           use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#facebook');
+          tooltipType.textContent = 'facebook:';
         } else if (type.includes('vk')) {
           use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#vk');
+          tooltipType.textContent = 'vk:';
         } else {
           use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#other');
+          tooltipType.textContent = 'другое:';
         }
 
         svg.append(use);
+        tooltip.append(tooltipType);
+        tooltip.append(tooltipValue);
         contact.append(tooltip);
         contact.append(svg);
         contactContainer.append(contact);
@@ -150,6 +161,18 @@ class Client {
         });
       });
     }
+
+    changeClientBtn.addEventListener('click', event => {
+      const data = {
+        id: this.id,
+        name: this.name,
+        secondName: this.secondName,
+        lastName: this.lastName,
+        contacts: this.contacts,
+      }
+
+      openClientModal('change', this.userId, data);
+    });
 
     deleteClientBtn.addEventListener('click', event => {
       openDeleteClient(this.userId, this.id)

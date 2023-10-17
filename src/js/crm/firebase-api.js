@@ -11,7 +11,6 @@ export async function writeClientData(userId, {
   const name = nameValue;
   const secondName = secondNameValue;
   const lastName = lastNameValue !== '' ? lastNameValue : 'not specified';
-
   const contacts = {};
   let contactsQuantity = 0;
 
@@ -41,6 +40,36 @@ export async function writeClientData(userId, {
   })
   .catch((error) => {
     console.error(error);
+  });
+}
+
+export async function updateClientData(userId, clientId, {
+  nameValue,
+  secondNameValue,
+  lastNameValue,
+  contactsArray,
+}) {
+  const db = getDatabase();
+  const clientsRef = 'users/' + userId + '/clients/';
+  const name = nameValue;
+  const secondName = secondNameValue;
+  const lastName = lastNameValue !== '' ? lastNameValue : 'not specified';
+  const contacts = {};
+  let contactsQuantity = 0;
+
+  contactsArray.forEach(input => {
+    contactsQuantity++;
+    const type = input.dataset.type;
+    const value = input.value;
+    contacts[`contact${contactsQuantity}:${type}`] = value;
+  });
+
+  return update(ref(db, clientsRef + clientId), {
+    name,
+    secondName,
+    lastName,
+    contacts,
+    lastChange: serverTimestamp(),
   });
 }
 

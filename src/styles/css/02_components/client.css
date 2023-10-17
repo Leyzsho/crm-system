@@ -179,7 +179,6 @@
   left: -100%;
   width: max-content;
   padding: 7px 14px;
-  color: #ffffff;
   font-size: 12px;
   font-weight: 700;
   background-color: #333333;
@@ -194,6 +193,12 @@
   left: 50%;
   top: -50%;
   transform: translate(-50%, 0);
+}
+.client-list__contact-tooltip-type {
+  color: #ffffff;
+}
+.client-list__contact-tooltip-value {
+  color: #9873FF;
 }
 .client-list__contact-tooltip--show {
   opacity: 1;
@@ -258,11 +263,16 @@
   display: flex;
   gap: 10px;
   align-self: flex-start;
+  align-items: flex-end;
 }
 .client-modal__title {
   font-size: 18px;
   font-weight: 700;
   color: #333333;
+}
+.client-modal__id {
+  font-size: 12px;
+  color: #B0B0B0;
 }
 .client-modal__label {
   position: relative;

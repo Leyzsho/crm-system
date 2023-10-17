@@ -1,16 +1,19 @@
 import { onlyLetters, placeholder, withoutSpace } from '../utils/input.js';
-import { deleteClient, writeClientData } from './firebase-api.js';
+import { deleteClient, writeClientData, updateClientData } from './firebase-api.js';
 
 export function openClientModal(way, userId, data) {
   class Contact {
-    static count = way === 'create' ? 0 : data;
+    static count = 0;
     static inputs = [];
 
-    constructor (list, {nameInput, secondNameInput, confirmBtn}) {
+    constructor (list, {nameInput, secondNameInput, confirmBtn}, {startType, inputValue}) {
       this.list = list;
       this.nameInput = nameInput;
       this.secondNameInput = secondNameInput;
       this.confirmBtn = confirmBtn;
+      this.startType = startType;
+      this.inputValue = inputValue;
+
       Contact.count++;
       this.createContact();
 
@@ -54,7 +57,6 @@ export function openClientModal(way, userId, data) {
       this.facebookOption.textContent = 'facebook';
       this.otherOption.value = 'other';
       this.otherOption.textContent = 'другое';
-
       this.contactSelect.append(this.phoneOption);
       this.contactSelect.append(this.emailOption);
       this.contactSelect.append(this.vkOption);
@@ -65,8 +67,24 @@ export function openClientModal(way, userId, data) {
       this.contactItem.append(this.contactDeleteBtn);
       this.list.append(this.contactItem);
 
+      console.log(this.startType)
+
+      if (this.startType.includes('phone')) {
+        this.contactSelect.value = this.phoneOption.value;
+      } else if (this.startType.includes('email')) {
+        this.contactSelect.value = this.emailOption.value;
+      } else if (this.startType.includes('facebook')) {
+        this.contactSelect.value = this.facebookOption.value;
+      } else if (this.startType.includes('vk')) {
+        this.contactSelect.value = this.vkOption.value;
+      } else {
+        this.contactSelect.value = this.otherOption.value;
+      }
+
       this.contactInput.dataset.type = this.contactSelect.value;
-      this.contactInput.placeholder = '+79221110500';
+      this.contactInput.value = this.inputValue;
+
+      this.changePlaceholder();
 
       Contact.inputs.push(this.contactInput);
 
@@ -137,6 +155,7 @@ export function openClientModal(way, userId, data) {
   const modal = document.createElement('div');
   const titleContainer = document.createElement('div');
   const title = document.createElement('h2');
+  const clientId = document.createElement('span');
   const nameLabel = document.createElement('label');
   const secondNameLabel = document.createElement('label');
   const lastNameLabel = document.createElement('label');
@@ -155,6 +174,7 @@ export function openClientModal(way, userId, data) {
   modal.classList.add('client-modal');
   titleContainer.classList.add('client-modal__title-container');
   title.classList.add('client-modal__title');
+  clientId.classList.add('client-modal__id');
   nameLabel.classList.add('client-modal__label');
   secondNameLabel.classList.add('client-modal__label');
   lastNameLabel.classList.add('client-modal__label');
@@ -174,7 +194,6 @@ export function openClientModal(way, userId, data) {
   lastNameInput.type = 'text';
   contactBtn.textContent = 'Добавить контакт';
   contactBtn.setAttribute('tabindex', '0');
-  confirmBtn.disabled = true;
 
   titleContainer.append(title);
   nameLabel.append(nameInput);
@@ -199,11 +218,6 @@ export function openClientModal(way, userId, data) {
     checkInputsContent(nameInput, secondNameInput, confirmBtn);
   });
 
-  cancelBtn.addEventListener('click', event => {
-    modal.remove();
-    darkBackground.remove();
-  });
-
   closeBtn.addEventListener('click', event => {
     modal.remove();
     darkBackground.remove();
@@ -211,46 +225,8 @@ export function openClientModal(way, userId, data) {
 
   contactBtn.addEventListener('click', event => {
     contactContainer.prepend(contactList);
-    new Contact(contactList, {nameInput, secondNameInput, confirmBtn});
+    new Contact(contactList, {nameInput, secondNameInput, confirmBtn}, {startType: 'phone', inputValue: ''});
     confirmBtn.disabled = true;
-  });
-
-  confirmBtn.addEventListener('click', async event => {
-    const loader = document.createElement('span');
-    event.currentTarget.append(loader);
-
-    event.currentTarget.disabled = true;
-    nameInput.disabled = true;
-    secondNameInput.disabled = true;
-    lastNameInput.disabled = true;
-    Contact.inputs.forEach(input => input.disabled = true);
-    closeBtn.disabled = true;
-    cancelBtn.disabled = true;
-
-    writeClientData(userId, {
-      nameValue: nameInput.value,
-      secondNameValue: secondNameInput.value,
-      lastNameValue: lastNameInput.value,
-      contactsArray: Contact.inputs,
-    })
-    .then(() => {
-      modal.remove();
-      darkBackground.remove();
-    })
-    .catch(() => {
-      message.classList.remove('message');
-      message.classList.add('error');
-      message.textContent = 'Что-то пошло не так...';
-      loader.remove();
-
-      event.currentTarget.disabled = false;
-      nameInput.disabled = false;
-      secondNameInput.disabled = false;
-      lastNameInput.disabled = false;
-      closeBtn.disabled = false;
-      cancelBtn.disabled = false;
-      Contact.inputs.forEach(input => input.disabled = false);
-    });
   });
 
   if (way === 'create') {
@@ -258,10 +234,115 @@ export function openClientModal(way, userId, data) {
     confirmBtn.textContent = 'Сохранить';
     cancelBtn.textContent = 'Отмена';
 
+    confirmBtn.disabled = true;
+
+    cancelBtn.addEventListener('click', event => {
+      modal.remove();
+      darkBackground.remove();
+    });
+
+    confirmBtn.addEventListener('click', async event => {
+      const loader = document.createElement('span');
+      event.currentTarget.append(loader);
+
+      event.currentTarget.disabled = true;
+      nameInput.disabled = true;
+      secondNameInput.disabled = true;
+      lastNameInput.disabled = true;
+      Contact.inputs.forEach(input => input.disabled = true);
+      closeBtn.disabled = true;
+      cancelBtn.disabled = true;
+
+      writeClientData(userId, {
+        nameValue: nameInput.value,
+        secondNameValue: secondNameInput.value,
+        lastNameValue: lastNameInput.value,
+        contactsArray: Contact.inputs,
+      })
+      .then(() => {
+        modal.remove();
+        darkBackground.remove();
+      })
+      .catch(() => {
+        message.classList.remove('message');
+        message.classList.add('error');
+        message.textContent = 'Что-то пошло не так...';
+        loader.remove();
+
+        event.currentTarget.disabled = false;
+        nameInput.disabled = false;
+        secondNameInput.disabled = false;
+        lastNameInput.disabled = false;
+        closeBtn.disabled = false;
+        cancelBtn.disabled = false;
+        Contact.inputs.forEach(input => input.disabled = false);
+      });
+    });
   } else if (way === 'change') {
     if (data === null) {
       throw new Error('Данного клиента не существует.');
     }
+
+    clientId.textContent = `ID: ${data.id}`;
+    titleContainer.append(clientId);
+
+    title.textContent = 'Изменить данные';
+    confirmBtn.textContent = 'Сохранить';
+    cancelBtn.textContent = 'Удалить клиента';
+    nameInput.value = data.name;
+    secondNameInput.value = data.secondName;
+    lastNameInput.value = data.lastName !== 'not specified' ? data.lastName : '';
+
+    if (data.contacts) {
+      Object.entries(data.contacts).forEach(([key, value]) => {
+        contactContainer.prepend(contactList);
+        new Contact(contactList, {nameInput, secondNameInput, confirmBtn}, {startType: key, inputValue: value});
+      });
+    }
+
+    cancelBtn.addEventListener('click',  event => {
+      modal.remove();
+      darkBackground.remove();
+      openDeleteClient(userId, data.id);
+    });
+
+    confirmBtn.addEventListener('click', async event => {
+      const loader = document.createElement('span');
+      event.currentTarget.append(loader);
+
+      event.currentTarget.disabled = true;
+      nameInput.disabled = true;
+      secondNameInput.disabled = true;
+      lastNameInput.disabled = true;
+      Contact.inputs.forEach(input => input.disabled = true);
+      closeBtn.disabled = true;
+      cancelBtn.disabled = true;
+
+      updateClientData(userId, data.id, {
+        nameValue: nameInput.value,
+        secondNameValue: secondNameInput.value,
+        lastNameValue: lastNameInput.value,
+        contactsArray: Contact.inputs,
+      })
+      .then(() => {
+        modal.remove();
+        darkBackground.remove();
+      })
+      .catch(() => {
+        message.classList.remove('message');
+        message.classList.add('error');
+        message.textContent = 'Что-то пошло не так...';
+        loader.remove();
+
+        event.currentTarget.disabled = false;
+        nameInput.disabled = false;
+        secondNameInput.disabled = false;
+        lastNameInput.disabled = false;
+        closeBtn.disabled = false;
+        cancelBtn.disabled = false;
+        Contact.inputs.forEach(input => input.disabled = false);
+      });
+    });
   }
 
   document.body.append(darkBackground);
