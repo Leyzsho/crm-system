@@ -185,6 +185,12 @@ onAuthStateChanged(auth, async (user) => {
   const newClientBtn = document.querySelector('.new-client-btn');
   const clientList = document.getElementById('client-list');
 
+  const idBtn = document.getElementById('sort-by-id');
+  const fullNameBtn = document.getElementById('sort-by-full-name');
+  const creationDateBtn = document.getElementById('sort-by-creation-date');
+  const lastChangeBtn = document.getElementById('sort-by-last-change');
+  let activeCategoryBtn = idBtn;
+
   if (user && user.emailVerified) {
     onValue(ref(db, ('users/' + user.uid + '/clients')), (snapshot) => {
       document.querySelector('.client-container__loader').classList.add('client-container__loader--hidden');
@@ -202,8 +208,12 @@ onAuthStateChanged(auth, async (user) => {
         });
       } else {
         message.remove();
+        activeCategoryBtn.classList.remove('client-categories__category--active');
+        activeCategoryBtn = idBtn;
+        activeCategoryBtn.classList.add('client-categories__category--active');
+
         Object.entries(data).forEach(([clientId, clientData]) => {
-           new Client(user.uid, clientList, {
+          new Client(user.uid, clientList, {
             id: clientId,
             name: clientData.name,
             secondName: clientData.secondName,
@@ -216,10 +226,104 @@ onAuthStateChanged(auth, async (user) => {
       }
 
       newClientBtn.disabled = false;
+      idBtn.disabled = false;
+      fullNameBtn.disabled = false;
+      creationDateBtn.disabled = false;
+      lastChangeBtn.disabled = false;
     });
 
     newClientBtn.addEventListener('click', async event => {
       openClientModal('create', user.uid, data);
+    });
+
+    idBtn.addEventListener('click', event => {
+      clientList.innerHTML = '';
+      activeCategoryBtn.classList.remove('client-categories__category--active');
+      activeCategoryBtn = event.currentTarget;
+      activeCategoryBtn.classList.add('client-categories__category--active');
+
+      Object.entries(data).forEach(([clientId, clientData]) => {
+        new Client(user.uid, clientList, {
+          id: clientId,
+          name: clientData.name,
+          secondName: clientData.secondName,
+          lastName: clientData.lastName,
+          contacts: clientData.contacts,
+          creationDate: clientData.creationDate,
+          lastChange: clientData.lastChange,
+        });
+      });
+    });
+
+    fullNameBtn.addEventListener('click', event => {
+      clientList.innerHTML = '';
+      activeCategoryBtn.classList.remove('client-categories__category--active');
+      activeCategoryBtn = event.currentTarget;
+      activeCategoryBtn.classList.add('client-categories__category--active');
+
+      Object.entries(data)
+      .sort(([,a], [,b]) => {
+        const fullNameA = a.name + a.secondName + (a.lastName !== 'not specified' ? a.lastName : '');
+        const fullNameB = b.name + b.secondName + (b.lastName !== 'not specified' ? b.lastName : '');
+        return fullNameA.localeCompare(fullNameB);
+      })
+      .forEach(([clientId, clientData]) => {
+        new Client(user.uid, clientList, {
+          id: clientId,
+          name: clientData.name,
+          secondName: clientData.secondName,
+          lastName: clientData.lastName,
+          contacts: clientData.contacts,
+          creationDate: clientData.creationDate,
+          lastChange: clientData.lastChange,
+        });
+      });
+    });
+
+    creationDateBtn.addEventListener('click', event => {
+      clientList.innerHTML = '';
+      activeCategoryBtn.classList.remove('client-categories__category--active');
+      activeCategoryBtn = event.currentTarget;
+      activeCategoryBtn.classList.add('client-categories__category--active');
+
+      Object.entries(data)
+      .sort(([,a], [,b]) => {
+        return a.creationDate - b.creationDate;
+      })
+      .forEach(([clientId, clientData]) => {
+        new Client(user.uid, clientList, {
+          id: clientId,
+          name: clientData.name,
+          secondName: clientData.secondName,
+          lastName: clientData.lastName,
+          contacts: clientData.contacts,
+          creationDate: clientData.creationDate,
+          lastChange: clientData.lastChange,
+        });
+      });
+    });
+
+    lastChangeBtn.addEventListener('click', event => {
+      clientList.innerHTML = '';
+      activeCategoryBtn.classList.remove('client-categories__category--active');
+      activeCategoryBtn = event.currentTarget;
+      activeCategoryBtn.classList.add('client-categories__category--active');
+
+      Object.entries(data)
+      .sort(([,a], [,b]) => {
+        return a.lastChange - b.lastChange;
+      })
+      .forEach(([clientId, clientData]) => {
+        new Client(user.uid, clientList, {
+          id: clientId,
+          name: clientData.name,
+          secondName: clientData.secondName,
+          lastName: clientData.lastName,
+          contacts: clientData.contacts,
+          creationDate: clientData.creationDate,
+          lastChange: clientData.lastChange,
+        });
+      });
     });
   } else {
     window.location.href = './register.html';
