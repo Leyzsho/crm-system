@@ -6,6 +6,18 @@
   }
 }
 
+@keyframes appear-modal {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
 @mixin defaultBtn {
   cursor: pointer;
   display: flex;
@@ -115,6 +127,10 @@
   padding: 40px;
   background-color: $color1;
   transform: translate(-50%, -50%);
+  transform-origin: center center;
+  animation: appear-modal .3s ease-in-out 1;
+
+
 }
 
 @mixin defaultH2Title {

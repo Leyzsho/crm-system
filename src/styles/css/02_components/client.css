@@ -3,6 +3,16 @@
     transform: rotate(360deg);
   }
 }
+@keyframes appear-modal {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
 #client-categories {
   display: grid;
   grid-template-columns: 5% 25% repeat(2, 12%) 112px repeat(2, 1fr);
@@ -225,7 +235,7 @@
 }
 .client-list__contact-tooltip--show {
   opacity: 1;
-  z-index: 1;
+  z-index: 2;
 }
 .client-list__btn {
   cursor: pointer;
@@ -276,6 +286,8 @@
   padding: 40px;
   background-color: #ffffff;
   transform: translate(-50%, -50%);
+  transform-origin: center center;
+  animation: appear-modal 0.3s ease-in-out 1;
   justify-content: flex-start;
   max-width: 450px;
   width: 100%;

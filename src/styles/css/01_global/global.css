@@ -3,6 +3,16 @@
     transform: rotate(360deg);
   }
 }
+@keyframes appear-modal {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
 @font-face {
   font-family: "OpenSans";
   src: local("OpenSans-Regular"), url("../OpenSans-Regular.woff2") format(woff2);

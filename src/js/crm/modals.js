@@ -16,10 +16,6 @@ export function openClientModal(way, userId, data) {
 
       Contact.count++;
       this.createContact();
-
-      if (Contact.count >= 10) {
-        document.getElementById('create-contact').classList.add('client-modal__contact-btn--hidden');
-      }
     }
 
     static inputsHaveContent() {
@@ -66,8 +62,6 @@ export function openClientModal(way, userId, data) {
       this.contactItem.append(this.contactInput);
       this.contactItem.append(this.contactDeleteBtn);
       this.list.append(this.contactItem);
-
-      console.log(this.startType)
 
       if (this.startType.includes('phone')) {
         this.contactSelect.value = this.phoneOption.value;
@@ -227,6 +221,9 @@ export function openClientModal(way, userId, data) {
     contactContainer.prepend(contactList);
     new Contact(contactList, {nameInput, secondNameInput, confirmBtn}, {startType: 'phone', inputValue: ''});
     confirmBtn.disabled = true;
+    if (Contact.count >= 10) {
+      contactBtn.classList.add('client-modal__contact-btn--hidden');
+    }
   });
 
   if (way === 'create') {
@@ -298,6 +295,9 @@ export function openClientModal(way, userId, data) {
         contactContainer.prepend(contactList);
         new Contact(contactList, {nameInput, secondNameInput, confirmBtn}, {startType: key, inputValue: value});
       });
+      if (Contact.count >= 10) {
+        contactBtn.classList.add('client-modal__contact-btn--hidden');
+      }
     }
 
     cancelBtn.addEventListener('click',  event => {
