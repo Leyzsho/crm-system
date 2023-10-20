@@ -200,11 +200,18 @@ onAuthStateChanged(auth, async (user) => {
       document.querySelector('.client-container__loader').classList.add('client-container__loader--hidden');
       clientList.innerHTML = '';
       data = snapshot.val();
-      searchData = filterClientsBySearchValue(data);
 
       const message = document.createElement('li');
 
       if (data === null || data.quantity === 0) {
+        searchData = null;
+        clientSearch.disabled = true;
+        idBtn.disabled = true;
+        fullNameBtn.disabled = true;
+        creationDateBtn.disabled = true;
+        lastChangeBtn.disabled = true;
+
+        clientSearch.placeholder = 'Введите запрос (должен быть хотя бы один клиент)';
         message.classList.add('client-list__message');
         message.textContent = 'Добавьте вашего первого клиента';
         clientList.append(message);
@@ -213,18 +220,21 @@ onAuthStateChanged(auth, async (user) => {
         });
       } else {
         message.remove();
-        filterAndShowClients(searchData !== null ? searchData : data, activeCategory);
-      }
+        clientSearch.placeholder = 'Введите запрос';
 
-      clientSearch.disabled = false;
+        searchData = filterClientsBySearchValue(data);
+        filterByCategoryAndShowClients(searchData, activeCategory);
+
+        clientSearch.disabled = false;
+        idBtn.disabled = false;
+        fullNameBtn.disabled = false;
+        creationDateBtn.disabled = false;
+        lastChangeBtn.disabled = false;
+      }
       newClientBtn.disabled = false;
-      idBtn.disabled = false;
-      fullNameBtn.disabled = false;
-      creationDateBtn.disabled = false;
-      lastChangeBtn.disabled = false;
     });
 
-    function filterAndShowClients(data, way) {
+    function filterByCategoryAndShowClients(data, way) {
       clientList.innerHTML = '';
       document.querySelector('.client-categories__category--active').classList.remove("client-categories__category--active");
 
@@ -317,7 +327,6 @@ onAuthStateChanged(auth, async (user) => {
           return `${day}.${month}.${year} ${hours}:${minutes}`;
         };
 
-
         const creationDate = getDate(clientData.creationDate);
         const lastChange = getDate(clientData.lastChange);
         const allData = `${clientId} ${clientData.secondName.toLowerCase()} ${clientData.name.toLowerCase()} ${clientData.lastName.toLowerCase()} ${creationDate} ${lastChange} ${clientData.contacts ? Object.values(clientData.contacts).join('').toLowerCase() : ''}`;
@@ -327,7 +336,7 @@ onAuthStateChanged(auth, async (user) => {
         }
       });
 
-      filterAndShowClients(suitableData, activeCategory);
+      filterByCategoryAndShowClients(suitableData, activeCategory);
       return suitableData;
     }
 
@@ -341,22 +350,22 @@ onAuthStateChanged(auth, async (user) => {
 
     idBtn.addEventListener('click', event => {
       activeCategory = 'id';
-      filterAndShowClients(searchData !== null ? searchData : data, activeCategory);
+      filterByCategoryAndShowClients(searchData, activeCategory);
     });
 
     fullNameBtn.addEventListener('click', event => {
       activeCategory = 'full-name';
-      filterAndShowClients(searchData !== null ? searchData : data, activeCategory);
+      filterByCategoryAndShowClients(searchData, activeCategory);
     });
 
     creationDateBtn.addEventListener('click', event => {
       activeCategory = 'creation-date';
-      filterAndShowClients(searchData !== null ? searchData : data, activeCategory);
+      filterByCategoryAndShowClients(searchData, activeCategory);
     });
 
     lastChangeBtn.addEventListener('click', event => {
       activeCategory = 'last-change';
-      filterAndShowClients(searchData !== null ? searchData : data, activeCategory);
+      filterByCategoryAndShowClients(searchData, activeCategory);
     });
   } else {
     window.location.href = './register.html';

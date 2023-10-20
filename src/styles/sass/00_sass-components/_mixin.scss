@@ -69,6 +69,19 @@
     border-radius: 50%;
     animation: loader-move 1.5s linear infinite;
   }
+
+  @media (max-width: 1023px) {
+    &:hover:not(:disabled) {
+      background-color: transparent;
+      color: $color5;
+    }
+
+    &--red {
+      &:hover:not(:disabled) {
+        color: $color6;
+      }
+    }
+  }
 }
 
 @mixin defaultInput {
@@ -123,6 +136,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 200px;
+  max-height: 520px;
+  max-width: 450px;
+  width: 100%;
+  overflow-y: scroll;
   gap: $padding;
   padding: 40px;
   background-color: $color1;
@@ -130,7 +148,10 @@
   transform-origin: center center;
   animation: appear-modal .3s ease-in-out 1;
 
-
+  @media (max-width: 767px) {
+    width: 90vw;
+    padding: 30px;
+  }
 }
 
 @mixin defaultH2Title {
@@ -160,5 +181,12 @@
     opacity: 0.7;
     cursor: default;
     text-decoration: none;
+  }
+
+  @media (max-width: 1023px) {
+    &:hover {
+      color: $color4;
+      text-decoration: underline;
+    }
   }
 }

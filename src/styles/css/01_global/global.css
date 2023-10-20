@@ -93,6 +93,7 @@ body {
 }
 
 .main {
+  overflow: hidden;
   position: relative;
   padding-top: 40px;
 }
@@ -147,6 +148,12 @@ body {
   opacity: 0.7;
   cursor: default;
   text-decoration: none;
+}
+@media (max-width: 1023px) {
+  .header__link:hover {
+    color: #333333;
+    text-decoration: underline;
+  }
 }
 
 .logo {
@@ -254,7 +261,7 @@ body {
 
 .input-placeholder {
   position: absolute;
-  z-index: 6;
+  z-index: -1;
   left: 0;
   top: 0;
   font-size: 14px;

@@ -84,12 +84,13 @@ body {
 }
 
 .main {
+  overflow: hidden;
   position: relative;
   padding-top: 40px;
 
+
   &--hidden {
     visibility: hidden;
-
   }
 
   &__title {
@@ -245,7 +246,7 @@ body {
 
 .input-placeholder {
   position: absolute;
-  z-index: 6;
+  z-index: -1;
   left: 0;
   top: 0;
   font-size: 14px;

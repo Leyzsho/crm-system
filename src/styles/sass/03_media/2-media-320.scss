@@ -1,0 +1,42 @@
+@media (max-width: 767px) {
+  #client-categories {
+    width: 728px;
+  }
+
+  #client-list {
+    width: 728px;
+  }
+
+  .header {
+    &__container {
+      gap: 18px;
+      display: grid;
+      grid-template-columns: 50px 1fr;
+      grid-template-rows: 50px 1fr;
+    }
+  }
+
+  .close-modal-btn {
+    top: 10px;
+    right: 10px;
+  }
+
+  .title {
+    display: none;
+  }
+
+  .client {
+    &-search {
+      grid-column: span 2;
+      grid-row: 2;
+    }
+
+    &-container {
+      overflow-x: scroll;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+}

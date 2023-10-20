@@ -44,6 +44,12 @@
   cursor: default;
   text-decoration: none;
 }
+@media (max-width: 1023px) {
+  .auth__descr-btn:hover {
+    color: #333333;
+    text-decoration: underline;
+  }
+}
 .auth__label {
   position: relative;
   width: 300px;
@@ -123,18 +129,41 @@
   border-radius: 50%;
   animation: loader-move 1.5s linear infinite;
 }
+@media (max-width: 1023px) {
+  .auth__btn:hover:not(:disabled) {
+    background-color: transparent;
+    color: #9873FF;
+  }
+  .auth__btn--red:hover:not(:disabled) {
+    color: #F06A4D;
+  }
+}
 .auth__change-way {
   font-size: 16px;
 }
 .auth__change-way-link {
-  color: #9873FF;
+  cursor: pointer;
   text-decoration: underline;
+  font-size: 16px;
+  color: #333333;
   outline: none;
-  transition: color 0.3s ease-in-out;
 }
 .auth__change-way-link:focus-visible {
-  color: #F06A4D;
+  color: #9873FF;
+  text-decoration: none;
 }
 .auth__change-way-link:hover {
+  color: #9873FF;
   text-decoration: none;
+}
+.auth__change-way-link:disabled {
+  opacity: 0.7;
+  cursor: default;
+  text-decoration: none;
+}
+@media (max-width: 1023px) {
+  .auth__change-way-link:hover {
+    color: #333333;
+    text-decoration: underline;
+  }
 }

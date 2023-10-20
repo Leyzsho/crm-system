@@ -1,0 +1,75 @@
+@keyframes loader-move {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes appear-modal {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+@media (max-width: 1023px) {
+  #client-categories {
+    column-gap: 18px;
+  }
+  .title {
+    font-size: 20px;
+  }
+  .header__container {
+    gap: 30px;
+  }
+  .close-modal-btn:hover::before {
+    background-color: #B0B0B0;
+  }
+  .close-modal-btn:hover::after {
+    background-color: #B0B0B0;
+  }
+  .show-hide-password-btn:hover {
+    opacity: 1;
+  }
+  .new-client-btn:hover:not(:disabled) .new-client-btn__svg {
+    fill: #9873FF;
+  }
+  .client-search {
+    width: 100%;
+  }
+  .client-categories__category:not(:nth-child(5), :nth-child(6)):hover:not(.client-categories__category--active) .client-categories__category-name {
+    color: #B0B0B0;
+  }
+  .client-categories__category:not(:nth-child(5), :nth-child(6)):hover:not(.client-categories__category--active) .client-categories__category-arrow {
+    fill: #B0B0B0;
+  }
+  .client-list__client {
+    grid-template-columns: 5% 25% repeat(2, 12%) 112px 1fr;
+    grid-template-rows: repeat(2, max-content);
+    column-gap: 18px;
+  }
+  .client-list__date-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .client-list__contact-container {
+    align-self: flex-start;
+  }
+  .client-list__btn:hover {
+    color: #333333;
+  }
+  .client-list__id, .client-list__full-name, .client-list__date-container, .client-list__contact-container {
+    grid-row: span 2;
+  }
+  .client-list__contact-svg {
+    opacity: 1;
+  }
+  .client-modal__contact-btn:hover {
+    color: #333333;
+  }
+  .client-modal__contact-delete-btn:hover {
+    background-image: url("../images/delete-gray.svg");
+  }
+}

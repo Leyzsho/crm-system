@@ -5,9 +5,6 @@
 
   &-modal {
     @include defaultModal;
-    min-height: 200px;
-    max-width: 400px;
-    width: 100%;
 
     &__title {
       @include defaultH2Title;
