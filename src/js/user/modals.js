@@ -150,11 +150,15 @@ export function openDeleteAccountModal(user) {
   });
 
   confirmBtn.addEventListener('click', async event => {
+    const loader = document.createElement('span');
+    event.currentTarget.append(loader);
+
     try {
       const credential = EmailAuthProvider.credential(user.email, passwordInput.value.trim());
       await reauthenticateWithCredential(user, credential);
       await deleteUser(user);
     } catch (error) {
+      loader.remove();
       message.textContent = 'Введён неверный пароль.';
     }
   });

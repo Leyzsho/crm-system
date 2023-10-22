@@ -72,6 +72,14 @@
   background-color: #9873FF;
   color: #ffffff;
 }
+.account-modal__btn span {
+  width: 15px;
+  height: 15px;
+  border: 3px solid #C8C5D1;
+  border-left-color: #9873FF;
+  border-radius: 50%;
+  animation: loader-move 1.5s linear infinite;
+}
 .account-modal__btn--red {
   border-color: #F06A4D;
   color: #F06A4D;
@@ -82,13 +90,8 @@
 .account-modal__btn--red:hover:not(:disabled) {
   background-color: #F06A4D;
 }
-.account-modal__btn span {
-  width: 15px;
-  height: 15px;
-  border: 3px solid #C8C5D1;
-  border-left-color: #9873FF;
-  border-radius: 50%;
-  animation: loader-move 1.5s linear infinite;
+.account-modal__btn--red span {
+  border-left-color: #F06A4D;
 }
 @media (max-width: 1023px) {
   .account-modal__btn:hover:not(:disabled) {
@@ -238,6 +241,14 @@
   background-color: #9873FF;
   color: #ffffff;
 }
+.account__btn span {
+  width: 15px;
+  height: 15px;
+  border: 3px solid #C8C5D1;
+  border-left-color: #9873FF;
+  border-radius: 50%;
+  animation: loader-move 1.5s linear infinite;
+}
 .account__btn--red {
   border-color: #F06A4D;
   color: #F06A4D;
@@ -248,13 +259,8 @@
 .account__btn--red:hover:not(:disabled) {
   background-color: #F06A4D;
 }
-.account__btn span {
-  width: 15px;
-  height: 15px;
-  border: 3px solid #C8C5D1;
-  border-left-color: #9873FF;
-  border-radius: 50%;
-  animation: loader-move 1.5s linear infinite;
+.account__btn--red span {
+  border-left-color: #F06A4D;
 }
 @media (max-width: 1023px) {
   .account__btn:hover:not(:disabled) {

@@ -51,10 +51,10 @@ export function showHidePassword(input) {
     event.preventDefault();
     if (input.type === 'password') {
       input.type = 'text';
-      btn.style.backgroundImage = 'url(../images/hide-password.svg)';
+      btn.style.backgroundImage = 'url(../../images/hide-password.svg)';
     } else {
       input.type = 'password';
-      btn.style.backgroundImage = 'url(../images/show-password.svg)';
+      btn.style.backgroundImage = 'url(../../images/show-password.svg)';
     }
   });
 }
