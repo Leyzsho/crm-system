@@ -1,0 +1,18 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBxqMmxnnITLmIA1fNjY35hkUKMYE-qIqc",
+  authDomain: "crm-system-9d29c.firebaseapp.com",
+  databaseURL: "https://crm-system-9d29c-default-rtdb.firebaseio.com",
+  projectId: "crm-system-9d29c",
+  storageBucket: "crm-system-9d29c.appspot.com",
+  messagingSenderId: "48438386908",
+  appId: "1:48438386908:web:b96dd3eefdf3d95f435419",
+  measurementId: "G-CZBSFV8M1P"
+};
+
+const app = initializeApp(firebaseConfig);
+
+export default app;
+
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiIiwic291cmNlcyI6WyJ1dGlscy9maXJlYmFzZS1pbml0LmpzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGluaXRpYWxpemVBcHAgfSBmcm9tIFwiaHR0cHM6Ly93d3cuZ3N0YXRpYy5jb20vZmlyZWJhc2Vqcy85LjEuMS9maXJlYmFzZS1hcHAuanNcIjtcclxuXHJcbmNvbnN0IGZpcmViYXNlQ29uZmlnID0ge1xyXG4gIGFwaUtleTogXCJBSXphU3lCeHFNbXhubklUTG1JQTFmTmpZMzVoa1VLTVlFLXFJcWNcIixcclxuICBhdXRoRG9tYWluOiBcImNybS1zeXN0ZW0tOWQyOWMuZmlyZWJhc2VhcHAuY29tXCIsXHJcbiAgZGF0YWJhc2VVUkw6IFwiaHR0cHM6Ly9jcm0tc3lzdGVtLTlkMjljLWRlZmF1bHQtcnRkYi5maXJlYmFzZWlvLmNvbVwiLFxyXG4gIHByb2plY3RJZDogXCJjcm0tc3lzdGVtLTlkMjljXCIsXHJcbiAgc3RvcmFnZUJ1Y2tldDogXCJjcm0tc3lzdGVtLTlkMjljLmFwcHNwb3QuY29tXCIsXHJcbiAgbWVzc2FnaW5nU2VuZGVySWQ6IFwiNDg0MzgzODY5MDhcIixcclxuICBhcHBJZDogXCIxOjQ4NDM4Mzg2OTA4OndlYjpiOTZkZDNlZWZkZjNkOTVmNDM1NDE5XCIsXHJcbiAgbWVhc3VyZW1lbnRJZDogXCJHLUNaQlNGVjhNMVBcIlxyXG59O1xyXG5cclxuY29uc3QgYXBwID0gaW5pdGlhbGl6ZUFwcChmaXJlYmFzZUNvbmZpZyk7XHJcblxyXG5leHBvcnQgZGVmYXVsdCBhcHA7XHJcbiJdLCJmaWxlIjoidXRpbHMvZmlyZWJhc2UtaW5pdC5qcyJ9
