@@ -152,6 +152,7 @@ export function openDeleteAccountModal(user) {
   confirmBtn.addEventListener('click', async event => {
     const loader = document.createElement('span');
     event.currentTarget.append(loader);
+    event.currentTarget.disabled = true;
 
     try {
       const credential = EmailAuthProvider.credential(user.email, passwordInput.value.trim());
@@ -160,6 +161,7 @@ export function openDeleteAccountModal(user) {
     } catch (error) {
       loader.remove();
       message.textContent = 'Введён неверный пароль.';
+      event.currentTarget.disabled = false;
     }
   });
 

@@ -41,20 +41,24 @@ export function showHidePassword(input) {
   const container = input.parentElement;
   if (container === null) throw new Error('Отсутствует контейнер');
 
-  const btn = document.createElement('button');
+  const btn = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+
   btn.classList.add('show-hide-password-btn');
   btn.style.top = `${input.offsetHeight / 2}px`;
+  use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#show-password');
 
+  btn.append(use);
   container.append(btn);
 
   btn.addEventListener('click', event => {
     event.preventDefault();
     if (input.type === 'password') {
       input.type = 'text';
-      btn.style.backgroundImage = 'url(../../images/hide-password.svg)';
+      use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#hide-password');
     } else {
       input.type = 'password';
-      btn.style.backgroundImage = 'url(../../images/show-password.svg)';
+      use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#show-password');
     }
   });
 }

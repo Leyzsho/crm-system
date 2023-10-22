@@ -227,21 +227,8 @@ body {
   height: 30px;
   left: 88%;
   top: 50%;
-  background-image: url('../images/show-password.svg');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
   transform: translateY(-50%);
-  transition: opacity .3s ease-in-out;
   outline: none;
-
-  &:focus-visible {
-    opacity: 0.6;
-  }
-
-  &:hover {
-    opacity: 0.6;
-  }
 }
 
 .input-placeholder {
